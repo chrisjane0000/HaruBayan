@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Haru Bayan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #fff;
+      color: #333;
+    }
+
+    header {
+      background-color: #9b001e;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+      padding: 6rem 2rem;
+      color: white;
+      position: relative;
+      transition: background-image 1s ease-in-out;
+    }
+
+    .hero h1 {
+      font-size: 1.8rem;
+      max-width: 700px;
+      margin: auto;
+      background: rgba(0,0,0,0.6);
+      padding: 1.5rem;
+      border-radius: 10px;
+    }
+
+    .hero button {
+      margin-top: 1rem;
+      background-color: #ffcc00;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .hero button:hover {
+      background-color: #e6b800;
+    }
+
+    .services {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem auto;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+
+    .service-box {
+      background: rgba(155, 0, 30, 0.9); /* #9b001e with 90% opacity */
+      padding: 1rem;
+      border-radius: 10px;
+      width: 150px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      color: white;
+    }
+
+    .service-box:hover {
+      transform: translateY(-5px);
+    }
+
+    .service-box img {
+      width: 50px;
+      margin-bottom: 0.5rem;
+    }
+
+    .about {
+      text-align: center;
+      max-width: 700px;
+      margin: 2rem auto;
+      background-color: #f8d7da;
+      padding: 1rem;
+      border-radius: 10px;
+      color: #9b001e;
+    }
+
+    .gallery {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem auto;
+      flex-wrap: wrap;
+    }
+
+    .gallery img {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    footer {
+      background-color: #9b001e;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>Haru Bayan</strong></div>
+    <nav>
+      <a href="#">HOME</a>
+      <a href="#">MENU</a>
+      <a href="#">SERVICE</a>
+      <a href="Contact.html">CONTACT</a>
+    </nav>
+    <div>
+      <small>
+        <div>♥ Hi, I'm <strong>Jane</strong></div>
+        <div><a href="#" style="color: #ffcc00;">Logout</a></div>
+      </small>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <h1>"Bringing the heart of Japan to every Filipino plate—one authentic bite at a time."</h1>
+    <button>Order Now</button>
+  </section>
+
+  <section class="services">
+    <div class="service-box">
+      <img src="https://img.icons8.com/color/96/000000/restaurant.png" alt="Dine In">
+      <div>DINE IN</div>
+    </div>
+    <div class="service-box">
+      <img src="https://img.icons8.com/color/96/000000/downloads.png" alt="App">
+      <div>Download the App</div>
+    </div>
+    <div class="service-box">
+      <img src="https://img.icons8.com/color/96/000000/delivery.png" alt="Delivery">
+      <div>DELIVERY</div>
+    </div>
+  </section>
+
+  <section class="about">
+    <p>Haru Bayan was founded to bring the authentic flavors of Japan to the Philippines inspired by traditional Japanese culinary techniques, we serve freshly rolled sushi, teppanyaki, ramen, crispy tempura, and flavorful donburi. We proudly remain passionate to capture the true essence of Japanese culture.</p>
+  </section>
+
+  <section class="gallery">
+    <img src="img/a0000370_main.webp" alt="food1">
+    <img src="img/COTP2072032.jpg" alt="food2">
+    <img src="img/Japanese-Food-45-Traditional-Dishes-to-Look-For-in-Japan.jpg" alt="food3">
+  </section>
+
+  <footer>
+    Copyright &copy; 2025 Haru Bayan. Created by MyTech Corp.
+  </footer>
+
+  <script>
+    const hero = document.getElementById('hero');
+    const bgImages = [
+      'img/background.webp',
+      'img/background2.jpg'
+    ];
+    let current = 0;
+
+    function changeBackground() {
+      hero.style.backgroundImage = `url('${bgImages[current]}')`;
+      current = (current + 1) % bgImages.length;
+    }
+
+    // Initial background
+    changeBackground();
+
+    // Loop every 5 seconds
+    setInterval(changeBackground, 5000);
+  </script>
+</body>
+</html>
