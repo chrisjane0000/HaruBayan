@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rice Dishes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #fff;
+      color: #333;
+    }
+
+    /* === HEADER === */
+    header.first_head {
+      background-color: #9b001e;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    header.first_head nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      right: 0;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .title-section {
+      text-align: center;
+      padding: 2rem;
+      background-color: #fff0f4;
+      color: #9b001e;
+    }
+
+    .menu-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    .menu-card {
+      width: 180px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .menu-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    .menu-card:hover {
+      transform: scale(1.05);
+    }
+
+    .menu-card h4 {
+      color: #9b001e;
+      margin: 0.5rem 0 0.2rem;
+    }
+
+    .menu-card p {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      background-color: #9b001e;
+      color: white;
+      text-align: center;
+      padding: 1 rem;
+      margin-top: 19.5%;
+    }
+
+    /* === MODALS === */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #fff5f5;
+      padding: 1.5rem;
+      border-radius: 12px;
+      max-width: 320px;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-content h3 {
+      margin-bottom: 1rem;
+    }
+
+    .modal-content button {
+      padding: 0.5rem 1.2rem;
+      margin: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .yes-btn {
+      background-color: #e66060;
+      color: white;
+    }
+
+    .cancel-btn {
+      background-color: #eee;
+      color: #444;
+    }
+
+    .okay-btn {
+      background-color: #e66060;
+      color: white;
+    }
+
+    .close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="first_head">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="img/logo-harubayan.png" alt="Haru Bayan Logo" style="height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
+      <strong>Haru Bayan</strong>
+    </div>
+    <nav>
+      <a href="haruBayan.html">HOME</a>
+      <a href="Menu-categories.html">MENU</a>
+      <a href="Services.html">SERVICE</a>
+      <a href="Contact.html">CONTACT</a>
+    </nav>
+    <div class="user-info">
+      <div class="dropdown">
+        <i class="fas fa-user-circle" style="font-size: 2rem; color: #fce4ec;"></i>
+        <span style="margin-left: 0.5rem; color: white;" id="dropdown-username">Guest</span>
+        <i class="fas fa-chevron-down" style="color: white; margin-left: 0.5rem;"></i>
+        <div class="dropdown-content">
+          <a href="#" id="login-btn">Login</a>
+          <a href="#" id="signup-btn">Signup</a>
+          <a href="#" id="orders-link" style="display:none;">Your Orders</a>
+          <a href="#" id="logout-link" style="display:none;">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="title-section">
+    <h2>RICE DISHES</h2>
+    <p>MENUS</p>
+  </section>
+
+  <section class="menu-grid">
+    <div class="menu-card">
+      <img src="img/donburi.jpg" alt="Donburi">
+      <h4>DONBURI</h4>
+      <p>₱00.00</p>
+    </div>
+    <div class="menu-card">
+      <img src="img/onigiri.jpg" alt="Onigiri">
+      <h4>ONIGIRI</h4>
+      <p>₱00.00</p>
+    </div>
+    <div class="menu-card">
+        <img src="img/chahan.jpg" alt="Chahan">
+        <h4>CHAHAN</h4>
+        <p>₱00.00</p>
+      </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Haru Bayan. Created by MyTech Corp.
+  </footer>
+
+  <div class="modal" id="confirmModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('confirmModal')">&times;</span>
+      <h3>ADD TO ORDER?</h3>
+      <button class="yes-btn" onclick="confirmOrder()">YES</button>
+      <button class="cancel-btn" onclick="closeModal('confirmModal')">CANCEL</button>
+    </div>
+  </div>
+
+  <div class="modal" id="successModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('successModal')">&times;</span>
+      <h3>THE FOOD YOU ORDERED HAS BEEN<br/>SUCCESSFULLY ADDED TO YOUR ORDERS LIST!</h3>
+      <button class="okay-btn" onclick="closeModal('successModal')">OKAY</button>
+    </div>
+  </div>
+
+  <script>
+    const menuCards = document.querySelectorAll('.menu-card');
+    const confirmModal = document.getElementById('confirmModal');
+    const successModal = document.getElementById('successModal');
+
+    menuCards.forEach(card => {
+      card.addEventListener('click', () => {
+        confirmModal.style.display = 'flex';
+      });
+    });
+
+    function confirmOrder() {
+      confirmModal.style.display = 'none';
+      successModal.style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    window.onclick = function(e) {
+      if (e.target.classList.contains('modal')) {
+        closeModal('confirmModal');
+        closeModal('successModal');
+      }
+    };
+  </script>
+
+</body>
+</html>

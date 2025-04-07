@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Haru Bayan</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -25,7 +26,7 @@
       justify-content: space-between;
       align-items: center;
     }
-  
+
     .first_head {
       background-color: #9b001e;
       padding: 1rem 2rem;
@@ -41,7 +42,39 @@
       text-decoration: none;
       font-weight: bold;
     }
-  
+
+    .user-info {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+      right: 0;
+    }
+
+    .dropdown-content a {
+      color: #9b001e;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
     .hero {
       background-size: cover;
       background-position: center;
@@ -86,7 +119,7 @@
     }
 
     .service-box {
-      background: rgba(155, 0, 30, 0.9); /* #9b001e with 90% opacity */
+      background: rgba(155, 0, 30, 0.9);
       padding: 1rem;
       border-radius: 10px;
       width: 150px;
@@ -141,19 +174,27 @@
 <body>
   <header class="first_head">
     <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="img/logo-harubayan.png" alt="Haru Bayan Logo" style="height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
-        <strong>Haru Bayan</strong>
-      </div>
+      <img src="img/logo-harubayan.png" alt="Haru Bayan Logo" style="height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
+      <strong>Haru Bayan</strong>
+    </div>
     <nav>
-      <a href="">HOME</a>
+      <a href="haruBayan.html">HOME</a>
       <a href="Menu-categories.html">MENU</a>
       <a href="Services.html">SERVICE</a>
       <a href="Contact.html">CONTACT</a>
     </nav>
-    <div>
-      <small>
-        <div><a href="#" style="color: #ffcc00;">Logout</a></div>
-      </small>
+    <div class="user-info">
+      <div class="dropdown">
+        <i class="fas fa-user-circle" style="font-size: 2rem; color: #fce4ec;"></i>
+        <span style="margin-left: 0.5rem; color: white;" id="dropdown-username">Guest</span>
+        <i class="fas fa-chevron-down" style="color: white; margin-left: 0.5rem;"></i>
+        <div class="dropdown-content">
+          <a href="#" id="login-btn">Login</a>
+          <a href="#" id="signup-btn">Signup</a>
+          <a href="#" id="orders-link" style="display:none;">Your Orders</a>
+          <a href="#" id="logout-link" style="display:none;">Logout</a>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -204,10 +245,7 @@
       current = (current + 1) % bgImages.length;
     }
 
-    // Initial background
     changeBackground();
-
-    // Loop every 5 seconds
     setInterval(changeBackground, 5000);
   </script>
 </body>
