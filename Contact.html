@@ -3,26 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact Page</title>
+  <title>Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
     }
 
     body {
-      font-family: Arial, sans-serif;
       background-color: #fff;
       color: #333;
     }
 
-    .topbar {
-      background-color: #d81b60;
+    header {
+      background-color: #9b001e;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       color: white;
-      padding: 8px 16px;
-      text-align: left;
+    }
+
+    .first_head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .first_head img {
+      height: 35px;
+      width: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .first_head strong {
+      font-size: 18px;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
       font-weight: bold;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      z-index: 1000;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      padding: 12px 16px;
+      top: 30px;
+      right: 0;
+      border-radius: 5px;
+      margin-top: 5px;
+      margin-left: 5px;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 10px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ee8585;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
     }
 
     .navbar {
@@ -137,17 +205,30 @@
 </head>
 <body>
 
-  <header>
-    <div class="topbar">Contact Page</div>
-    <nav class="navbar">
-      <div class="logo">Hana-bayun</div>
-      <ul class="nav-links">
-        <li><a href="haruBayan.html">HOME</a></li>
-        <li><a href="Menu-categories.html">MENU</a></li>
-        <li><a href="Services.html">SERVICE</a></li>
-        <li><a href="Contact.html">CONTACT</a></li>
-      </ul>
+  <header class="first_head">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="img/logo-harubayan.png" alt="Haru Bayan Logo" style="height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
+        <strong>Haru Bayan</strong>
+      </div>
+    <nav>
+      <a href="haruBayan.html">HOME</a>
+      <a href="Menu-categories.html">MENU</a>
+      <a href="Services.html">SERVICE</a>
+      <a href="Contact.html">CONTACT</a>
     </nav>
+    <div class="user-info">
+      <div class="dropdown">
+        <i class="fas fa-user-circle" style="font-size: 2rem; color: #fce4ec;"></i>
+        <span style="margin-left: 0.5rem; color: white;" id="dropdown-username">Guest</span>
+        <i class="fas fa-chevron-down" style="color: white; margin-left: 0.5rem;"></i>
+        <div class="dropdown-content">
+          <a href="#" id="login-btn">Login</a>
+          <a href="#" id="signup-btn">Signup</a>
+          <a href="#" id="orders-link" style="display:none;">Your Orders</a>
+          <a href="#" id="logout-link" style="display:none;">Logout</a>
+        </div>
+      </div>
+    </div>
   </header>
 
   <main class="contact-container">
@@ -169,7 +250,7 @@
         <div class="box email-box">
           <h4>EMAIL US</h4>
           <p>For inquiries, reservations, or feedback, email us at</p>
-          <a href="mailto:info@hana-bayun.ph">info@hana-bayun.ph</a>
+          <a href="mailto:info@hana-bayun.ph">info@haru-bayan.ph</a>
         </div>
 
         <div class="box follow-box">
@@ -192,7 +273,7 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 Hana Bayun. Created by MyTech Camp.</p>
+    <p>&copy; 2025 Haru Bayan. Created by MyTech Camp.</p>
   </footer>
 
 </body>
