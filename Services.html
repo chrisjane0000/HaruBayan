@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Service</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="../HaruBayan/img/logo-harubayan.png" alt="Haru Bayan Logo" style="height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
+        <strong>Haru Bayan</strong>
+      </div>
+    <nav>
+      <a href="haruBayan.html">HOME</a>
+      <a href="Menu-categories.html">MENU</a>
+      <a href="Services.html">SERVICE</a>
+      <a href="Contact.html">CONTACT</a>
+    </nav>
+    <div class="user-info">
+      <div class="dropdown">
+        <i class="fas fa-user-circle" style="font-size: 2rem; color: #fce4ec;"></i>
+        <span style="margin-left: 0.5rem; color: white;" id="dropdown-username">Guest</span>
+        <i class="fas fa-chevron-down" style="color: white; margin-left: 0.5rem;"></i>
+        <div class="dropdown-content">
+          <!-- For Guest (Login/Signup) -->
+          <a href="#" id="login-btn">Login</a>
+          <a href="#" id="signup-btn">Signup</a>
+          <!-- For Logged-in users -->
+          <a href="#" id="orders-link" style="display:none;">Your Orders</a>
+          <a href="#" id="logout-link" style="display:none;">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+  <section class="about-us">
+    <div class="team-photo">
+      <img src="team-photo.jpg" alt="Team Photo" />
+    </div>
+    <div class="who-are-we">
+      <h2>WHO ARE WE</h2>
+      <p>
+        We are founders of Hana-Bayan, a restaurant in Cagayan de Oro dedicated to bringing authentic Japanese flavors to the local community. With a passion for traditional culinary techniques, we offer freshly made sushi, ramen, tempura, and donburi, creating every dish that captures the true essence of Japan.
+      </p>
+    </div>
+  </section>
+
+  <section class="together-strong">
+    <h3>Together We <br> Are Strong</h3>
+    <div class="mission">
+      <p>
+        Our team at Hana-Bayan is the heart of everything we do. Each staff member brings dedication, skill, and passion to ensure the best dining experience for our customers. From our expert chefs crafting authentic Japanese dishes to our friendly servers ensuring warm hospitality, we work together to deliver true satisfaction. With commitment and enthusiasm, we maintain high standards in food quality, service, and customer satisfaction, making every visit to Hana-Bayan memorable.
+      </p>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><h4>5+</h4><p>Years Serving Authentic Japanese Cuisine</p></div>
+    <div class="stat"><h4>95%</h4><p>Customer Satisfaction Rate</p></div>
+    <div class="stat"><h4>20k+</h4><p>Positive Reviews</p></div>
+    <div class="stat"><h4>10k+</h4><p>Loyal Customers</p></div>
+  </section>
+
+  <section class="team-section">
+    <h2>Meet Our IT Department Team</h2>
+    <div class="team-members">
+      <div class="member">
+        <img src="riane.jpg" alt="Riane Amor" class="member-photo" />
+        <p><strong>Amor, Riane R.</strong><br>LEADER</p>
+      </div>
+      <div class="member">
+        <img src="jade.jpg" alt="Jade Plazos" class="member-photo" />
+        <p><strong>Plazos, Jade Mariel</strong></p>
+      </div>
+      <div class="member">
+        <img src="kristal.jpg" alt="Kristal Sarsoza" class="member-photo" />
+        <p><strong>Sarsoza, Kristal A.</strong></p>
+      </div>
+      <div class="member">
+        <img src="christine.jpg" alt="Christine Yburan" class="member-photo" />
+        <p><strong>Yburan, Christine Jane</strong></p>
+      </div>
+    </div>
+  </section>
+
+  
+  <footer>
+    Copyright &copy; 2025 Haru Bayan. Created by MyTech Corp.
+  </footer>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="close-login">&times;</span>
+      <h2>Login</h2>
+      <form>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signup-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="close-signup">&times;</span>
+      <h2>Signup</h2>
+      <form>
+        <label for="new-username">Username:</label>
+        <input type="text" id="new-username" name="new-username" required />
+        <label for="new-password">Password:</label>
+        <input type="password" id="new-password" name="new-password" required />
+        <button type="submit">Signup</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #fff;
+      color: #333;
+    }
+
+    header {
+      background-color: #9b001e;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #9b001e;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      top: 30px;
+      right: 0;
+      border-radius: 5px;
+      margin-top: 5px;
+      margin-left: 5px;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 10px 16px;
+      text-decoration: none;
+      display: block;
+      font-weight: normal;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ee8585;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 5px;
+    }
+
+    .close-btn {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      float: right;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #9b001e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #8a0019;
+    }
+
+    /*in between header and footer section*/
+
+    /* About Us Section */
+    .about-us {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    }
+
+    .team-photo img {
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 250px;
+    height: auto;
+    border: 3px solid #800000;
+    border-radius: 8px;
+    }
+
+    .who-are-we h2 {
+    color: #800000;
+    font-size: 24px;
+    margin-bottom: 10px;
+    }
+
+    .who-are-we p {
+    max-width: 500px;
+    }
+
+    /* Together Section */
+    .together-strong {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: #fce4ec;
+    padding: 15px;
+    border-left: 8px solid #800000;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+
+    }
+
+    .together-strong h3 {
+    font-size: 26px;
+    color: #800000;
+    font-weight: bold;
+    margin-right: 20px;
+    }
+
+    .mission {
+    margin-left: 20px;
+    margin-right: 20px;
+    flex: 1;
+    border-left: 4px solid #800000;
+    padding-left: 15px;
+    }
+
+    /* Stats */
+    .stats {
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 30px 0;
+    text-align: center;
+    }
+
+    .stat h4 {
+    font-size: 24px;
+    color: #800000;
+    }
+
+    .stat p {
+    font-size: 14px;
+    max-width: 120px;
+    }
+
+    /* Team Section */
+    .team-section {
+    /* margin-left: 20px;
+    margin-right: 20px; */
+    background-color: #372327;
+    padding: 20px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+
+    /* border-radius: 8px; */
+    }
+
+    .team-section h2 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+    }
+
+    .team-members {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    }
+
+    .member {
+    text-align: center;
+    color: #ffffff;
+    width: 150px;
+    }
+
+    .member-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #fce4ec;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+  </style>
+
+  <script>
+    // Modal functionality
+    const loginModal = document.getElementById("login-modal");
+    const signupModal = document.getElementById("signup-modal");
+    const loginBtn = document.getElementById("login-btn");
+    const signupBtn = document.getElementById("signup-btn");
+    const closeLoginBtn = document.getElementById("close-login");
+    const closeSignupBtn = document.getElementById("close-signup");
+
+    // Open the login modal
+    loginBtn.onclick = () => {
+      loginModal.style.display = "block";
+    };
+
+    // Open the signup modal
+    signupBtn.onclick = () => {
+      signupModal.style.display = "block";
+    };
+
+    // Close the login modal
+    closeLoginBtn.onclick = () => {
+      loginModal.style.display = "none";
+    };
+
+    // Close the signup modal
+    closeSignupBtn.onclick = () => {
+      signupModal.style.display = "none";
+    };
+
+    // Close modals if clicked outside
+    window.onclick = (event) => {
+      if (event.target === loginModal) {
+        loginModal.style.display = "none";
+      }
+      if (event.target === signupModal) {
+        signupModal.style.display = "none";
+      }
+    };
+
+    // Simulate login (For demo purposes)
+    let isLoggedIn = false;
+    let loggedInUser = "";
+
+    // Update the dropdown based on login status
+    function updateDropdown() {
+      const usernameSpan = document.getElementById("dropdown-username");
+      if (isLoggedIn) {
+        document.getElementById("orders-link").style.display = "block";
+        document.getElementById("logout-link").style.display = "block";
+        document.getElementById("login-btn").style.display = "none";
+        document.getElementById("signup-btn").style.display = "none";
+        usernameSpan.textContent = loggedInUser; // Display logged in user's name
+      } else {
+        document.getElementById("orders-link").style.display = "none";
+        document.getElementById("logout-link").style.display = "none";
+        document.getElementById("login-btn").style.display = "block";
+        document.getElementById("signup-btn").style.display = "block";
+        usernameSpan.textContent = "Guest";
+      }
+    }
+
+    // Handle login form submission
+    document.getElementById("login-modal").querySelector("form").onsubmit = (event) => {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      loggedInUser = username;
+      isLoggedIn = true;
+      updateDropdown();
+      loginModal.style.display = "none"; // Close the modal after login
+    };
+
+    // Handle signup form submission
+    document.getElementById("signup-modal").querySelector("form").onsubmit = (event) => {
+      event.preventDefault();
+      const username = document.getElementById("new-username").value;
+      loggedInUser = username;
+      isLoggedIn = true;
+      updateDropdown();
+      signupModal.style.display = "none"; // Close the modal after signup
+    };
+
+    // Simulate logging out (for demo purposes)
+    document.getElementById("logout-link").onclick = () => {
+      isLoggedIn = false;
+      loggedInUser = "";
+      updateDropdown();
+    };
+
+    // Initially update the dropdown based on the login state
+    updateDropdown();
+  </script>
+
+</body>
+</html>
