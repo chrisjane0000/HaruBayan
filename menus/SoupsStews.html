@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Soups and Stews</title>
+  <link rel="icon" type="image/png" href="../img/logo-harubayan.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #fff;
+      color: #333;
+    }
+
+    header.first_head {
+      background-color: #9b001e;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    header.first_head nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      right: 0;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .title-section {
+      text-align: center;
+      padding: 2rem;
+      background-color: #fff0f4;
+      color: #9b001e;
+    }
+
+    .menu-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .menu-card {
+      width: 180px;
+      border: 1px solid #751d2e;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.30);
+      overflow: hidden;
+      text-align: center;
+      background-color: white;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .menu-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .menu-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    .menu-card h4 {
+      color: #9b001e;
+      margin: 0.5rem 0 0.2rem;
+    }
+
+    .menu-card p {
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .menu-card button {
+      margin: 0.8rem 0 1rem;
+      padding: 6px 10px;
+      background-color: #9b001e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .menu-card button:hover {
+      background-color: #750019;
+    }
+
+    footer {
+      background-color: #9b001e;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 19.5%;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #fff5f5;
+      padding: 1.5rem;
+      border-radius: 12px;
+      max-width: 320px;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-content h3 {
+      margin-bottom: 1rem;
+    }
+
+    .modal-content button {
+      padding: 0.5rem 1.2rem;
+      margin: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .yes-btn {
+      background-color: #e66060;
+      color: white;
+    }
+
+    .cancel-btn {
+      background-color: #eee;
+      color: #444;
+    }
+
+    .okay-btn {
+      background-color: #e66060;
+      color: white;
+    }
+
+    .close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .back-button {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .back-button a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #9b001e;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .back-button a:hover {
+      background-color: #751d2e;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="first_head">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="../img/logo-harubayan.png" alt="Haru Bayan Logo" style="height: 35px; width: 35px; border-radius: 50%;">
+      <strong>Haru Bayan</strong>
+    </div>
+    <nav>
+      <a href="../haruBayan.html">HOME</a>
+      <a href="../Menu-categories.html">MENU</a>
+      <a href="../Services.html">SERVICE</a>
+      <a href="../Contact.html">CONTACT</a>
+    </nav>
+    <div class="user-info">
+      <div class="dropdown">
+        <i class="fas fa-user-circle" style="font-size: 2rem; color: #fce4ec;"></i>
+        <span style="margin-left: 0.5rem; color: white;" id="dropdown-username">Guest</span>
+        <i class="fas fa-chevron-down" style="color: white; margin-left: 0.5rem;"></i>
+        <div class="dropdown-content">
+          <a href="#" id="login-btn">Login</a>
+          <a href="#" id="signup-btn">Signup</a>
+          <a href="#" id="orders-link" style="display:none;">Your Orders</a>
+          <a href="#" id="logout-link" style="display:none;">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="title-section">
+    <h2>SOUPS AND STEWS</h2>
+    <p>MENUS</p>
+  </section>
+
+  <section class="menu-grid">
+    <div class="menu-card">
+      <img src="../img/shabu-shabu-ss.avif" alt="Shabu-Shabu">
+      <h4>SHABU SHABU</h4>
+      <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
+    </div>
+    <div class="menu-card">
+      <img src="../img/Nabe-SS.webp" alt="Nabe">
+      <h4>NABE</h4>
+      <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
+    </div>
+    <div class="menu-card">
+      <img src="../img/zoni-ss.jpg" alt="Zoni">
+      <h4>ZONI</h4>
+      <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
+    </div>
+    <div class="menu-card">
+      <img src="../img/Tonjiru-ss.jpg" alt="Tonjiru">
+      <h4>TONJIRU</h4>
+      <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
+    </div>
+    <div class="menu-card">
+      <img src="../img/Nikujaga-ss.jpg" alt="Nikujaga">
+      <h4>NIKUJAGA</h4>
+      <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
+    </div>
+  </section>
+
+  <!-- Back to Menu Button -->
+  <div class="back-button">
+    <a href="../Menu-categories.html">&larr; Back to Menu Categories</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Haru Bayan. Created by MyTech Corp.
+  </footer>
+
+  <!-- Confirm Modal -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('confirmModal')">&times;</span>
+      <h3>ADD TO ORDER?</h3>
+      <button class="yes-btn" onclick="confirmOrder()">YES</button>
+      <button class="cancel-btn" onclick="closeModal('confirmModal')">CANCEL</button>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal" id="successModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('successModal')">&times;</span>
+      <h3>THE FOOD YOU ORDERED HAS BEEN<br/>SUCCESSFULLY ADDED TO YOUR ORDERS LIST!</h3>
+      <button class="okay-btn" onclick="closeModal('successModal')">OKAY</button>
+    </div>
+  </div>
+
+  <script>
+    const orderButtons = document.querySelectorAll('.order-btn');
+    const confirmModal = document.getElementById('confirmModal');
+    const successModal = document.getElementById('successModal');
+
+    orderButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        confirmModal.style.display = 'flex';
+      });
+    });
+
+    function confirmOrder() {
+      confirmModal.style.display = 'none';
+      successModal.style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    window.onclick = function(e) {
+      if (e.target.classList.contains('modal')) {
+        closeModal('confirmModal');
+        closeModal('successModal');
+      }
+    };
+  </script>
+
+</body>
+</html>

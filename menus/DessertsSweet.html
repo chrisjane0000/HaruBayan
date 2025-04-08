@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rice Dishes</title>
+  <title>Desserts and Sweets</title>
+  <link rel="icon" type="image/png" href="../img/logo-harubayan.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -19,7 +20,6 @@
       color: #333;
     }
 
-    /* === HEADER === */
     header.first_head {
       background-color: #9b001e;
       padding: 1rem 2rem;
@@ -78,28 +78,30 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
+      gap: 1.5rem;
       padding: 2rem;
     }
 
     .menu-card {
       width: 180px;
+      border: 1px solid #751d2e;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.30);
       overflow: hidden;
-      transition: transform 0.3s;
       text-align: center;
-      cursor: pointer;
+      background-color: white;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .menu-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
 
     .menu-card img {
       width: 100%;
       height: 120px;
       object-fit: cover;
-    }
-
-    .menu-card:hover {
-      transform: scale(1.05);
     }
 
     .menu-card h4 {
@@ -110,18 +112,31 @@
     .menu-card p {
       font-size: 0.9rem;
       color: #777;
-      margin-bottom: 1rem;
+    }
+
+    .menu-card button {
+      margin: 0.8rem 0 1rem;
+      padding: 6px 10px;
+      background-color: #9b001e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .menu-card button:hover {
+      background-color: #750019;
     }
 
     footer {
       background-color: #9b001e;
       color: white;
       text-align: center;
-      padding: 1 rem;
+      padding: 1rem;
       margin-top: 19.5%;
     }
 
-    /* === MODALS === */
     .modal {
       display: none;
       position: fixed;
@@ -178,20 +193,40 @@
       font-size: 1.2rem;
       cursor: pointer;
     }
+
+    .back-button {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .back-button a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #9b001e;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .back-button a:hover {
+      background-color: #751d2e;
+    }
   </style>
 </head>
 <body>
 
   <header class="first_head">
     <div style="display: flex; align-items: center; gap: 10px;">
-      <img src="img/logo-harubayan.png" alt="Haru Bayan Logo" style="height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
+      <img src="../img/logo-harubayan.png" alt="Haru Bayan Logo" style="height: 35px; width: 35px; border-radius: 50%;">
       <strong>Haru Bayan</strong>
     </div>
     <nav>
-      <a href="haruBayan.html">HOME</a>
-      <a href="Menu-categories.html">MENU</a>
-      <a href="Services.html">SERVICE</a>
-      <a href="Contact.html">CONTACT</a>
+      <a href="../haruBayan.html">HOME</a>
+      <a href="../Menu-categories.html">MENU</a>
+      <a href="../Services.html">SERVICE</a>
+      <a href="../Contact.html">CONTACT</a>
     </nav>
     <div class="user-info">
       <div class="dropdown">
@@ -209,32 +244,53 @@
   </header>
 
   <section class="title-section">
-    <h2>RICE DISHES</h2>
+    <h2>DESSERTS AND SWEETS</h2>
     <p>MENUS</p>
   </section>
 
   <section class="menu-grid">
     <div class="menu-card">
-      <img src="img/donburi.jpg" alt="Donburi">
-      <h4>DONBURI</h4>
+      <img src="../img/Dorayaki-d.jpg" alt="Dorayaki">
+      <h4>DORAYAKI</h4>
       <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
     </div>
     <div class="menu-card">
-      <img src="img/onigiri.jpg" alt="Onigiri">
-      <h4>ONIGIRI</h4>
+      <img src="../img/Yokan-d.jpg" alt="Yokan">
+      <h4>YOKAN</h4>
       <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
     </div>
     <div class="menu-card">
-        <img src="img/chahan.jpg" alt="Chahan">
-        <h4>CHAHAN</h4>
-        <p>₱00.00</p>
-      </div>
+      <img src="../img/SakuraMochi-d.jpg" alt="Sakura Mochi">
+      <h4>SAKURA MOCHI</h4>
+      <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
+    </div>
+    <div class="menu-card">
+      <img src="../img/matcha-ice-cream-d.webp" alt="Matcha Ice Cream">
+      <h4>MATCHA ICE CREAM</h4>
+      <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
+    </div>
+    <div class="menu-card">
+      <img src="../img/JapaneseCheesecake-d.webp" alt="Japanese Cheesecake">
+      <h4>JAPANESE CHEESECAKE</h4>
+      <p>₱00.00</p>
+      <button class="order-btn">Add to Order</button>
+    </div>
   </section>
+
+  <!-- Back to Menu Button -->
+  <div class="back-button">
+    <a href="../Menu-categories.html">&larr; Back to Menu Categories</a>
+  </div>
 
   <footer>
     &copy; 2025 Haru Bayan. Created by MyTech Corp.
   </footer>
 
+  <!-- Confirm Modal -->
   <div class="modal" id="confirmModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('confirmModal')">&times;</span>
@@ -244,6 +300,7 @@
     </div>
   </div>
 
+  <!-- Success Modal -->
   <div class="modal" id="successModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('successModal')">&times;</span>
@@ -253,12 +310,12 @@
   </div>
 
   <script>
-    const menuCards = document.querySelectorAll('.menu-card');
+    const orderButtons = document.querySelectorAll('.order-btn');
     const confirmModal = document.getElementById('confirmModal');
     const successModal = document.getElementById('successModal');
 
-    menuCards.forEach(card => {
-      card.addEventListener('click', () => {
+    orderButtons.forEach(button => {
+      button.addEventListener('click', () => {
         confirmModal.style.display = 'flex';
       });
     });
