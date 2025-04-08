@@ -18,6 +18,7 @@
     body {
       background-color: #fff;
       color: #333;
+      line-height: 1.6;
     }
 
     header {
@@ -36,8 +37,8 @@
     }
 
     .first_head img {
-      height: 35px;
-      width: 35px;
+      height: 20px;
+      width: 20px;
       border-radius: 50%;
       object-fit: cover;
     }
@@ -122,9 +123,17 @@
 
     .contact-container {
       display: flex;
-      padding: 20px;
-      gap: 20px;
+      padding: 30px;
+      gap: 30px;
       flex-wrap: wrap;
+      justify-content: space-between;
+      background-color: #f4f4f4;
+    }
+    .contact-info{
+      display: flex;               /* Use flexbox layout */
+      flex-direction: row;         /* Arrange elements in a row */
+      align-items: center;         /* Align items in the center (you can change this to flex-start or flex-end if needed) */
+      gap: 20px;                   /* Add space between elements */
     }
 
     .left-section {
@@ -133,28 +142,51 @@
     }
 
     .left-section img {
-      width: 100%;
-      max-width: 400px;
-      border-radius: 5px;
-      margin-bottom: 10px;
+      max-width: 350px;
+      max-height: 200px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 15px;
+      border: 2px solid #800000;
+
     }
 
+    .lower{
+      display: flex;               /* Use flexbox layout */
+      flex-direction: column;      /* Arrange elements in a column */
+      align-items: flex-start;     /* Align items to the start (left) */
+      gap: 20px;                   /* Add space between elements */
+      margin-left: 3%;
+    }
+      
+
     .contact-info h2, h3, h4 {
-      color: #b71c1c;
       margin-top: 10px;
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-weight: 50;
+      font-size: 18px;
+      color:#f9f9f9;
+
     }
 
     .contact-info .box {
-      background-color: #f8d7da;
+      background-color: #800000;
+      color:#f9f9f9;
       padding: 15px;
-      border-radius: 5px;
-      margin-top: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: -5%;
     }
 
     .contact-info a {
-      color: #d81b60;
+      color:#f9f9f9;
       text-decoration: none;
       font-weight: bold;
+    }
+
+    .contact-info a:hover {
+      text-decoration: underline;
     }
 
     .right-section {
@@ -163,45 +195,88 @@
     }
 
     .contact-form {
-      background-color: #fff3f3;
-      padding: 20px;
-      border-radius: 5px;
+      background-color: #f3ecec;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+      margin-right: 5%;
+      margin-left: 1%;
+    
     }
 
     .contact-form h3 {
-      margin-bottom: 15px;
-      color: #b71c1c;
+      margin-bottom: 20px;
+      color: #3f000d;
+      font-weight: bold;
     }
 
     .contact-form input,
     .contact-form textarea {
       width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
+      margin-bottom: 15px;
+      padding: 12px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 6px;
+      box-sizing: border-box;
+      color: black;
+      background-color: #f3bba4;
+      border: 1px solid #4d0101;
     }
 
     .contact-form button {
-      background-color: #d81b60;
+      background-color: #f16f32;
       color: white;
       border: none;
-      padding: 10px 15px;
-      border-radius: 4px;
+      border: 1px solid #302d2d;
+      padding: 12px 20px;
+      border-radius: 10px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
     .contact-form button:hover {
-      background-color: #ad1457;
+      background-color: #dfcc78;
+    }
+
+    .top-left{
+      display: flex;             /* Use flexbox layout */
+      flex-direction: row;       /* Arrange elements in a row */
+      align-items: center;       /* Align items vertically */
+      gap: 20px;                 /* Add space between elements */
+      min-width: 300px;
+      margin-left: 3%;
+      margin-right: 3%;
+      }
+
+    .info-top{
+      display: flex;               /* Use flexbox layout */
+      flex-direction: column;      /* Arrange elements in a column */
+      align-items: flex-start;     /* Align items to the start (left) */
+      gap: 20px;                   /* Add space between elements */
+      min-width: 300px;
+      }
+
+    .info-top h2, h3{
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 26px;
+      color: #4d0101;
+    }
+
+    .info-top p {
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-size: 16px;
+      color: black;
+      margin-top: -20px;
     }
 
     footer {
       background-color: #b71c1c;
       color: white;
       text-align: center;
-      padding: 10px;
-      margin-top: 20px;
+      padding: 15px;
+      margin-top: 40px;
     }
+
   </style>
 </head>
 <body>
@@ -234,14 +309,19 @@
 
   <main class="contact-container">
     <div class="left-section">
-      <img src="https://via.placeholder.com/300x200" alt="Contact Image">
-      <div class="contact-info">
-        <h2>CONTACT US</h2>
+      <div class="top-left">
+      <img src="../HaruBayan/img/call.png" alt="Contact Image">
+      <div class="info-top">
+      <h2>CONTACT US</h2>
         <p>We’d love to hear from you! Whether you have questions, feedback, or just want to share your experience, feel free to reach out.</p>
 
         <h3>VISIT US</h3>
         <p>123 Sakura Street, Cagayan de Oro City, Misamis Oriental, Philippines</p>
+    </div>
+  </div>
+      <div class="contact-info">
 
+        <div class="lower">
         <div class="box call-box">
           <h4>CALL US</h4>
           <p>We're available from 9 AM to 9 PM PHT</p>
@@ -259,8 +339,8 @@
           <p>Stay updated with our latest offerings and events</p>
           <a href="#">Facebook & Instagram</a>
         </div>
-      </div>
     </div>
+   
 
     <div class="right-section">
       <form class="contact-form">
@@ -271,6 +351,7 @@
         <button type="submit">SEND</button>
       </form>
     </div>
+  </div>
   </main>
 
   <footer>
