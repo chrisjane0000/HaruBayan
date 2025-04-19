@@ -328,6 +328,38 @@
         padding: 1.5rem;
         font-size: 0.9rem;
       }
+      .sakura {
+      position: absolute;
+      top: -50px;
+      width: 30px;
+      height: 30px;
+      background-image: url('../img/sakura.png');
+      background-size: cover;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateX(0) rotate(0);
+        top: -50px;
+      }
+      100% {
+        transform: translateX(200px) rotate(360deg);
+        top: 100vh;
+      }
+    }
+
+    .sakura:nth-child(odd) {
+      animation-duration: 8s;
+      animation-delay: 2s;
+    }
+
+    .sakura:nth-child(even) {
+      animation-duration: 6s;
+      animation-delay: 4s;
+    }
     </style>
   </head>
   <body>
@@ -566,6 +598,16 @@
     document.getElementById("logout-link").style.display = "none";
     document.getElementById("orders-link").style.display = "none";
   }
+
+  document.addEventListener("DOMContentLoaded", function () {
+      for (let i = 0; i < 20; i++) {
+        const sakura = document.createElement("div");
+        sakura.className = "sakura";
+        sakura.style.left = Math.random() * 100 + "vw";
+        sakura.style.animationDelay = Math.random() * 5 + "s";
+        document.body.appendChild(sakura);
+      }
+    });
   </script>
 
   </body>
