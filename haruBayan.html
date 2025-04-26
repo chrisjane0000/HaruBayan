@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Haru Bayan</title>
-    <link rel="icon" type="image/png" href="../HaruBayan/img/mainpics/logo/logo-harubayan.png"/>
+    <link rel="icon" type="image/png" href="img/logo-harubayan.png"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -329,8 +329,8 @@
         font-size: 0.9rem;
       }
       .sakura {
-      position: absolute;
-      top: -50px;
+      position: fixed;
+      top: -50;
       width: 30px;
       height: 30px;
       background-image: url('../img/sakura.png');
@@ -381,7 +381,7 @@
           <i class="fas fa-chevron-down" style="color: white; margin-left: 0.5rem;"></i>
           <div class="dropdown-content">
             <!-- For Guest (Login/Signup) -->
-            <a href="#" id="login-btn">Login</a>
+            <a href="user-login.html" id="login-btn">Login</a>
             <a href="#" id="signup-btn">Signup</a>
             <!-- For Logged-in users -->
             <a href="YourOrders.html" id="orders-link" style="display:none;">Your Orders</a>
@@ -393,7 +393,7 @@
 
     <section class="hero" id="hero">
       <h1>"Bringing the heart of Japan to every Filipino plate—one authentic bite at a time."</h1>
-      <button onclick="window.location.href='Menu-categories.html'">Order Now</button>
+      <button onclick="window.location.href='../user-login.html'">Order Now</button>
     </section>
 
     <section class="services">
