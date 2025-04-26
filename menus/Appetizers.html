@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -267,47 +266,51 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function fetchMenu() {
-      const { data, error } = await supabase
-        .from("menu")
-        .select(`
-          id,
-          price,
-          description,
-          recipes (
-            name,
-            category,
-            image_url
-          )
-        `)
-        .eq('recipes.category', 'Appetizers'); // Filter by category 'Appetizers'
+  const { data, error } = await supabase
+    .from("menu")
+    .select(`
+      id,
+      price,
+      description,
+      recipes (
+        name,
+        category,
+        image_url
+      )
+    `)
+    .eq('recipes.category', 'Appetizers'); 
 
-      if (error) {
-        console.error("Error fetching menu:", error);
-        return;
-      }
+  if (error) {
+    console.error("Error fetching menu:", error);
+    return;
+  }
 
-      const container = document.getElementById("menu-container");
-      container.innerHTML = "";  // Clear any previous content
+  const container = document.getElementById("menu-container");
+  container.innerHTML = "";  // Clear any previous content
 
-      data.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "menu-card";
+  data.forEach(item => {
+    if (item.recipes) {  // Check if recipes is not null or undefined
+      const card = document.createElement("div");
+      card.className = "menu-card";
 
-        // Fallback to a default image if no image_url is available
-        const imageUrl = item.recipes.image_url || '../img/default-image.jpg'; // Add your fallback image path here
+      // Fallback to a default image if no image_url is available
+      const imageUrl = item.recipes.image_url || '../img/default-image.jpg'; // Add your fallback image path here
 
-        card.innerHTML = `
-        <img src="${imageUrl}" alt="${item.recipes.name}" />
-        <h4>${item.recipes.name}</h4>
-        <p style = "font-weight: bold;">₱${parseFloat(item.price).toFixed(2)}</p>
-        <p style="font-size: 0.85rem; color: #555; margin: 5px 10px;">${item.description}</p>
-        <button class="order-btn">Add to Order</button>
-        `;
+      card.innerHTML = `
+      <img src="${imageUrl}" alt="${item.recipes.name}" />
+      <h4>${item.recipes.name}</h4>
+      <p style = "font-weight: bold;">₱${parseFloat(item.price).toFixed(2)}</p>
+      <p style="font-size: 0.85rem; color: #555; margin: 5px 10px;">${item.description}</p>
+      <button class="order-btn">Add to Order</button>
+      `;
 
-        
-        container.appendChild(card);
-      });
+      container.appendChild(card);
+    } else {
+      console.error("Missing recipes data for menu item:", item);
     }
+  });
+}
+
 
     fetchMenu();
   </script>
