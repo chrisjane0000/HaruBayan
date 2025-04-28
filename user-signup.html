@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HaruBayan - User Sign Up</title>
+  <link rel="icon" type="image/png" href="img/logo-harubayan.png"/>
+  <style>
+    /* --- [YOUR STYLE] --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #8b0013;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .signup-box h2 {
+      color: white;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .signup-card {
+      background-color: #f3e6f3;
+      padding: 30px 20px;
+      border-radius: 15px;
+      width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .signup-card input {
+      width: 300px;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #570404;
+      border-radius: 10px;
+      background-color: #f1cece;
+    }
+
+    .logo {
+      width: 80px;
+      margin: 20px 0 10px;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .signup-card button {
+      background-color: #ff7070;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 200px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .signup-card button:hover {
+      background-color: #e05555;
+    }
+
+    .login-link {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #570404;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .login-link a:hover {
+      color: #ff7070;
+    }
+
+    .notification {
+      display: none;
+      color: white;
+      padding: 15px;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .notification.success {
+      background-color: #ff69b4;
+    }
+
+    .notification.error {
+      background-color: #e74c3c;
+    }
+
+    .notification.show {
+      display: block;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-box">
+    <h2>USER SIGN UP</h2>
+    <div class="signup-card">
+      <img src="img/logo-harubayan.png" alt="Logo" class="logo" />
+      <h3 class="brand">Haru-Bayan</h3>
+
+      <!-- Form -->
+      <form id="signup-form"> 
+        <input type="text" name="username" placeholder="Username" required /><br>
+        <input type="email" name="email" placeholder="Email" required /><br>
+        <input type="password" name="password" placeholder="Password" required /><br>
+        <input type="password" name="password2" placeholder="Confirm Password" required /><br>
+        <button type="submit">SIGN UP</button>
+      </form>
+
+      <!-- Redirect to Login -->
+      <div class="login-link">
+        <span>Already have an account? <a href="./user-login.html">Login</a></span>
+      </div>
+
+      <!-- Notification -->
+      <div id="signup-notification" class="notification">
+        Sign up successful! Welcome <span id="user-name"></span>.
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+  // Add event listener for form submission
+  const form = document.querySelector('#signup-form');
+  const notification = document.querySelector('#signup-notification');
+  const userNameSpan = document.querySelector('#user-name');
+  
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault(); // Prevent page reload
+
+    // Get values from form fields
+    const username = document.querySelector('input[name="username"]').value;
+    const email = document.querySelector('input[name="email"]').value;
+    const password = document.querySelector('input[name="password"]').value;
+    const password2 = document.querySelector('input[name="password2"]').value;
+
+    // Check if the passwords match
+    if (password !== password2) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      // Send the data to Django backend
+      const response = await fetch('http://127.0.0.1:8000/api/auth/users/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password,
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Show success notification
+        userNameSpan.textContent = username;
+        notification.classList.add('show');
+        
+        // Hide the notification after a few seconds
+        setTimeout(() => {
+          notification.classList.remove('show');
+          window.location.href = 'user-login.html'; // Redirect to login page
+        }, 3000); // 3 seconds for the notification to stay visible
+
+      } else {
+        // Handle errors (e.g., username already exists)
+        alert('Error: ' + JSON.stringify(data));
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+      alert('There was an error signing up.');
+    }
+  });
+</script>
+
+
+</body>
+</html>  

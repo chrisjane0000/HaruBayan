@@ -382,7 +382,7 @@
           <div class="dropdown-content">
             <!-- For Guest (Login/Signup) -->
             <a href="user-login.html" id="login-btn">Login</a>
-            <a href="#" id="signup-btn">Signup</a>
+            <a href="user-signup.html" id="signup-btn">Signup</a>
             <!-- For Logged-in users -->
             <a href="YourOrders.html" id="orders-link" style="display:none;">Your Orders</a>
             <a href="#" id="logout-link" style="display:none;">Logout</a>
@@ -393,7 +393,7 @@
 
     <section class="hero" id="hero">
       <h1>"Bringing the heart of Japan to every Filipino plate—one authentic bite at a time."</h1>
-      <button onclick="window.location.href='../user-login.html'">Order Now</button>
+      <button onclick="window.location.href='user-login.html'">Order Now</button>
     </section>
 
     <section class="services">
@@ -446,37 +446,7 @@
       Copyright &copy; 2025 Haru Bayan. Created by MyTech Corp.
     </footer>
 
-    <!-- Login Modal -->
-  <div id="login-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" id="close-login">&times;</span>
-      <h2>Login</h2>
-      <form>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required />
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required />
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Signup Modal -->
-  <div id="signup-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" id="close-signup">&times;</span>
-      <h2>Signup</h2>
-      <form>
-        <label for="new-username">Username:</label>
-        <input type="text" id="new-username" name="new-username" required />
-        <label for="new-password">Password:</label>
-        <input type="password" id="new-password" name="new-password" required />
-        <label for="confirm-password">Confirm Password:</label>
-        <input type="password" id="confirm-password" name="confirm-password" required />
-        <button type="submit">Sign Up</button>
-      </form>
-    </div>
-  </div>
+    
 
 
     <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
@@ -500,91 +470,9 @@
       window.onscroll = () => {
         scrollTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
       };
-  // Get modal elements
-  const loginModal = document.getElementById("login-modal");
-  const signupModal = document.getElementById("signup-modal");
-  const loginBtn = document.getElementById("login-btn");
-  const signupBtn = document.getElementById("signup-btn");
-  const closeLogin = document.getElementById("close-login");
-  const closeSignup = document.getElementById("close-signup");
-  const usernameDisplay = document.getElementById("dropdown-username");
+  
 
-  // Login modal
-  loginBtn.onclick = function() {
-    loginModal.style.display = "block";
-  }
-
-  // Signup modal
-  signupBtn.onclick = function() {
-    signupModal.style.display = "block";
-  }
-
-  // Close login modal
-  closeLogin.onclick = function() {
-    loginModal.style.display = "none";
-  }
-
-  // Close signup modal
-  closeSignup.onclick = function() {
-    signupModal.style.display = "none";
-  }
-
-  // Close modals if clicked outside
-  window.onclick = function(event) {
-    if (event.target == loginModal || event.target == signupModal) {
-      loginModal.style.display = "none";
-      signupModal.style.display = "none";
-    }
-  }
-
-  // Mock login action
-  document.querySelector("#login-modal form").onsubmit = function(event) {
-    event.preventDefault();
-
-    // Get the entered username for login
-    const username = document.getElementById("username").value;
-
-    if (username) {
-      // After login, update the username in the dropdown
-      usernameDisplay.textContent = username;
-
-      // Hide login/signup buttons and show logout
-      document.getElementById("login-btn").style.display = "none";
-      document.getElementById("signup-btn").style.display = "none";
-      document.getElementById("logout-link").style.display = "block";
-      document.getElementById("orders-link").style.display = "block";
-
-      // Close the modal after successful login
-      loginModal.style.display = "none";
-    } else {
-      alert("Please enter a username!");
-    }
-  }
-
-  // Mock signup action
-  document.querySelector("#signup-modal form").onsubmit = function(event) {
-    event.preventDefault();
-
-    // Get the entered username for signup
-    const username = document.getElementById("new-username").value;
-
-    if (username) {
-      // After signup, update the username in the dropdown
-      usernameDisplay.textContent = username;
-
-      // Hide login/signup buttons and show logout
-      document.getElementById("login-btn").style.display = "none";
-      document.getElementById("signup-btn").style.display = "none";
-      document.getElementById("logout-link").style.display = "block";
-      document.getElementById("orders-link").style.display = "block";
-
-      // Close the modal after successful signup
-      signupModal.style.display = "none";
-    } else {
-      alert("Please enter a username!");
-    }
-  }
-
+  
   // Logout action
   document.getElementById("logout-link").onclick = function() {
     // Reset to guest state

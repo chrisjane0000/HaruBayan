@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HaruBayan - User Login</title>
   <link rel="icon" type="image/png" href="img/logo-harubayan.png"/>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  
   <style>
     * {
       margin: 0;
@@ -100,6 +100,21 @@
       display: block;
       opacity: 1;
     }
+
+    .signup-link {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .signup-link a {
+      color: #570404;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .signup-link a:hover {
+      color: #ff7070;
+    }
   </style>
 </head>
 <body>
@@ -109,51 +124,87 @@
         <img src="img/logo-harubayan.png" alt="Logo" class="logo" />
         <h3 class="brand">Haru-Bayan</h3>
 
-        <input type="text" placeholder="Username" class="username" />
-        <input type="password" placeholder="Password" class="password" />
-        <button>LOGIN</button>
+        <form id="login-form">
+            <input type="text" name="username" placeholder="Username" class="username" required />
+            <input type="password" name="password" placeholder="Password" class="password" required />
+            <button type="submit">LOGIN</button>
+        </form>
+
+        <div class="signup-link">
+          <span>Don't have an account? <a href="./user-signup.html">Sign up</a></span>
+        </div>
 
         <div id="login-notification" class="notification">
           Login successful! Welcome <span id="user-name"></span>.
+        </div>
+
+        <div id="login-error-notification" class="notification error">
+          Invalid username or password.
         </div>
     </div>
   </div>
 
   <script>
-    const loginBtn = document.querySelector('button');
-    const usernameInput = document.querySelector('.username');
-    const passwordInput = document.querySelector('.password');
+    // Get form and notification elements
+    const form = document.querySelector('#login-form');
+    const notification = document.querySelector('#login-notification');
+    const errorNotification = document.querySelector('#login-error-notification');
+    const userNameSpan = document.querySelector('#user-name');
   
-    loginBtn.addEventListener('click', () => {
-      const username = usernameInput.value.trim();
-      const password = passwordInput.value.trim();
-  
+    // Handle form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Prevent form from reloading the page
+
+      const username = document.querySelector('input[name="username"]').value;
+      const password = document.querySelector('input[name="password"]').value;
+
+      // Ensure both fields are filled
       if (!username || !password) {
-        displayNotification('Please fill in both fields!', 'error');
+        alert("Please fill in both fields!");
         return;
       }
-  
-      // Simulate login success without checking against database
-      const dummyUser = { username };
-      localStorage.setItem('loggedInUser', JSON.stringify(dummyUser));
-      displayNotification(`Login successful! Welcome ${username}.`, 'success');
-  
-      setTimeout(() => {
-        window.location.href = '../Menu-categories.html';
-      }, 2000);
+
+      try {
+        // Send login request to Django backend
+        const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {  // Corrected the URL to match Django view
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          })
+        });
+
+        
+        const data = await response.json();
+
+        if (response.ok) {
+          // Save session in cookies instead of sessionStorage (if needed for persistence)
+          // Since Django handles session management via cookies, we don't need to manually store the token.
+
+          // Display notification
+          userNameSpan.textContent = username;
+          notification.classList.add('show');
+          
+          // Redirect to menu page after 3 seconds
+          setTimeout(() => {
+            notification.classList.remove('show');
+            window.location.href = 'Menu-categories.html'; // Redirect to menu page
+          }, 3000);
+        } else {
+          // Handle errors (incorrect username or password)
+          errorNotification.classList.add('show');
+          setTimeout(() => {
+            errorNotification.classList.remove('show');
+          }, 3000); // Hide error notification after 3 seconds
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('There was an error logging in.');
+      }
     });
-  
-    function displayNotification(message, type) {
-      const notification = document.getElementById('login-notification');
-      notification.textContent = message;
-      notification.classList.remove('success', 'error');
-      notification.classList.add(type);
-      notification.classList.add('show');
-  
-      setTimeout(() => {
-        notification.classList.remove('show');
-      }, 5000);
-    }
   </script>
   
 </body>
