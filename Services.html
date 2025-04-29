@@ -27,8 +27,8 @@
         <i class="fas fa-chevron-down" style="color: white; margin-left: 0.5rem;"></i>
         <div class="dropdown-content">
           <!-- For Guest (Login/Signup) -->
-          <a href="#" id="login-btn">Login</a>
-          <a href="#" id="signup-btn">Signup</a>
+          <a href="user-login.html" id="login-btn">Login</a>
+          <a href="user-signup.html" id="signup-btn">Signup</a>
           <!-- For Logged-in users -->
           <a href="#" id="orders-link" style="display:none;">Your Orders</a>
           <a href="#" id="logout-link" style="display:none;">Logout</a>
@@ -403,95 +403,60 @@
   </style>
 
   <script>
-    // Modal functionality
-    const loginModal = document.getElementById("login-modal");
-    const signupModal = document.getElementById("signup-modal");
-    const loginBtn = document.getElementById("login-btn");
-    const signupBtn = document.getElementById("signup-btn");
-    const closeLoginBtn = document.getElementById("close-login");
-    const closeSignupBtn = document.getElementById("close-signup");
+    const loggedInUser = localStorage.getItem('loggedInUser');
 
-    // Open the login modal
-    loginBtn.onclick = () => {
-      loginModal.style.display = "block";
-    };
+if (loggedInUser) {
+  document.getElementById('dropdown-username').textContent = loggedInUser;
+  document.getElementById('login-btn').style.display = 'none';
+  document.getElementById('signup-btn').style.display = 'none';
+  document.getElementById('orders-link').style.display = 'block';
+  document.getElementById('logout-link').style.display = 'block';
+}
 
-    // Open the signup modal
-    signupBtn.onclick = () => {
-      signupModal.style.display = "block";
-    };
+document.getElementById('logout-link').addEventListener('click', function() {
+  localStorage.removeItem('loggedInUser');
+  window.location.reload();
+});
 
-    // Close the login modal
-    closeLoginBtn.onclick = () => {
-      loginModal.style.display = "none";
-    };
+let currentSlide = 0;
+const slides = document.querySelectorAll(".slide");
+const indicators = document.querySelectorAll(".indicator");
 
-    // Close the signup modal
-    closeSignupBtn.onclick = () => {
-      signupModal.style.display = "none";
-    };
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.remove("active");
+    if (indicators[i]) indicators[i].classList.remove("active");
+  });
+  slides[index].classList.add("active");
+  if (indicators[index]) indicators[index].classList.add("active");
+  currentSlide = index;
+}
 
-    // Close modals if clicked outside
-    window.onclick = (event) => {
-      if (event.target === loginModal) {
-        loginModal.style.display = "none";
-      }
-      if (event.target === signupModal) {
-        signupModal.style.display = "none";
-      }
-    };
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}
 
-    // Simulate login (For demo purposes)
-    let isLoggedIn = false;
-    let loggedInUser = "";
+setInterval(nextSlide, 3000);
 
-    // Update the dropdown based on login status
-    function updateDropdown() {
-      const usernameSpan = document.getElementById("dropdown-username");
-      if (isLoggedIn) {
-        document.getElementById("orders-link").style.display = "block";
-        document.getElementById("logout-link").style.display = "block";
-        document.getElementById("login-btn").style.display = "none";
-        document.getElementById("signup-btn").style.display = "none";
-        usernameSpan.textContent = loggedInUser; // Display logged in user's name
-      } else {
-        document.getElementById("orders-link").style.display = "none";
-        document.getElementById("logout-link").style.display = "none";
-        document.getElementById("login-btn").style.display = "block";
-        document.getElementById("signup-btn").style.display = "block";
-        usernameSpan.textContent = "Guest";
-      }
-    }
+// MODALS (Login and Signup)
+const loginModal = document.getElementById("login-modal");
+const signupModal = document.getElementById("signup-modal");
+const loginBtn = document.getElementById("login-btn");
+const signupBtn = document.getElementById("signup-btn");
+const closeLogin = document.getElementById("close-login");
+const closeSignup = document.getElementById("close-signup");
 
-    // Handle login form submission
-    document.getElementById("login-modal").querySelector("form").onsubmit = (event) => {
-      event.preventDefault();
-      const username = document.getElementById("username").value;
-      loggedInUser = username;
-      isLoggedIn = true;
-      updateDropdown();
-      loginModal.style.display = "none"; // Close the modal after login
-    };
+loginBtn.addEventListener("click", () => loginModal.style.display = "block");
+signupBtn.addEventListener("click", () => signupModal.style.display = "block");
 
-    // Handle signup form submission
-    document.getElementById("signup-modal").querySelector("form").onsubmit = (event) => {
-      event.preventDefault();
-      const username = document.getElementById("new-username").value;
-      loggedInUser = username;
-      isLoggedIn = true;
-      updateDropdown();
-      signupModal.style.display = "none"; // Close the modal after signup
-    };
+closeLogin.addEventListener("click", () => loginModal.style.display = "none");
+closeSignup.addEventListener("click", () => signupModal.style.display = "none");
 
-    // Simulate logging out (for demo purposes)
-    document.getElementById("logout-link").onclick = () => {
-      isLoggedIn = false;
-      loggedInUser = "";
-      updateDropdown();
-    };
-
-    // Initially update the dropdown based on the login state
-    updateDropdown();
+window.addEventListener("click", (event) => {
+  if (event.target == loginModal) loginModal.style.display = "none";
+  if (event.target == signupModal) signupModal.style.display = "none";
+});
   </script>
 
 </body>

@@ -115,6 +115,14 @@
       display: block;
       opacity: 1;
     }
+
+    #signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  }
+  
   </style>
 </head>
 <body>
@@ -126,10 +134,10 @@
 
       <!-- Form -->
       <form id="signup-form"> 
-        <input type="text" name="username" placeholder="Username" required /><br>
-        <input type="email" name="email" placeholder="Email" required /><br>
-        <input type="password" name="password" placeholder="Password" required /><br>
-        <input type="password" name="password2" placeholder="Confirm Password" required /><br>
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="password" name="password2" placeholder="Confirm Password" required />
         <button type="submit">SIGN UP</button>
       </form>
 

@@ -232,8 +232,8 @@
         <span style="margin-left: 0.5rem; color: white;" id="dropdown-username">Guest</span>
         <i class="fas fa-chevron-down" style="color: white; margin-left: 0.5rem;"></i>
         <div class="dropdown-content">
-          <a href="#" id="login-btn">Login</a>
-          <a href="#" id="signup-btn">Signup</a>
+          <a href="../user-login.html" id="login-btn">Login</a>
+          <a href="../user-signup.html" id="signup-btn">Signup</a>
           <a href="#" id="orders-link" style="display:none;">Your Orders</a>
           <a href="#" id="logout-link" style="display:none;">Logout</a>
         </div>
@@ -313,6 +313,60 @@
 
 
     fetchMenu();
+    const loggedInUser = localStorage.getItem('loggedInUser');
+
+if (loggedInUser) {
+  document.getElementById('dropdown-username').textContent = loggedInUser;
+  document.getElementById('login-btn').style.display = 'none';
+  document.getElementById('signup-btn').style.display = 'none';
+  document.getElementById('orders-link').style.display = 'block';
+  document.getElementById('logout-link').style.display = 'block';
+}
+
+document.getElementById('logout-link').addEventListener('click', function() {
+  localStorage.removeItem('loggedInUser');
+  window.location.reload();
+});
+
+let currentSlide = 0;
+const slides = document.querySelectorAll(".slide");
+const indicators = document.querySelectorAll(".indicator");
+
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.remove("active");
+    if (indicators[i]) indicators[i].classList.remove("active");
+  });
+  slides[index].classList.add("active");
+  if (indicators[index]) indicators[index].classList.add("active");
+  currentSlide = index;
+}
+
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}
+
+setInterval(nextSlide, 3000);
+
+// MODALS (Login and Signup)
+const loginModal = document.getElementById("login-modal");
+const signupModal = document.getElementById("signup-modal");
+const loginBtn = document.getElementById("login-btn");
+const signupBtn = document.getElementById("signup-btn");
+const closeLogin = document.getElementById("close-login");
+const closeSignup = document.getElementById("close-signup");
+
+loginBtn.addEventListener("click", () => loginModal.style.display = "block");
+signupBtn.addEventListener("click", () => signupModal.style.display = "block");
+
+closeLogin.addEventListener("click", () => loginModal.style.display = "none");
+closeSignup.addEventListener("click", () => signupModal.style.display = "none");
+
+window.addEventListener("click", (event) => {
+  if (event.target == loginModal) loginModal.style.display = "none";
+  if (event.target == signupModal) signupModal.style.display = "none";
+});
   </script>
 
 </body>
