@@ -261,72 +261,78 @@
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js";
 
-    const SUPABASE_URL = 'https://lngdoqimxolarajflobo.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuZ2RvcWlteG9sYXJhamZsb2JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0MjQ5MDQsImV4cCI6MjA2MDAwMDkwNH0.hDroH3E7cq-RHh8iGsbg5s1tdYVSHMI94ZSZXzoABic';
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  const SUPABASE_URL = 'https://lngdoqimxolarajflobo.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuZ2RvcWlteG9sYXJhamZsb2JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0MjQ5MDQsImV4cCI6MjA2MDAwMDkwNH0.hDroH3E7cq-RHh8iGsbg5s1tdYVSHMI94ZSZXzoABic';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    async function fetchMenu() {
-  const { data, error } = await supabase
-    .from("menu")
-    .select(`
-      id,
-      price,
-      description,
-      recipes (
-        name,
-        category,
-        image_url
-      )
-    `)
-    .eq('recipes.category', 'Appetizers'); 
+  async function fetchMenu() {
+    const { data, error } = await supabase
+      .from("menu")
+      .select(`
+        id,
+        price,
+        description,
+        available,
+        recipes (
+          name,
+          category,
+          image_url
+        )
+      `)
+      .eq('recipes.category', 'Appetizers'); 
 
-  if (error) {
-    console.error("Error fetching menu:", error);
-    return;
+    if (error) {
+      console.error("Error fetching menu:", error);
+      return;
+    }
+
+    const container = document.getElementById("menu-container");
+    container.innerHTML = "";  // Clear any previous content
+
+    data.forEach(item => {
+      if (item.recipes) {  // Check if recipes is not null or undefined
+        const card = document.createElement("div");
+        card.className = "menu-card";
+
+        // Fallback to a default image if no image_url is available
+        const imageUrl = item.recipes.image_url || '../img/default-image.jpg'; // Add your fallback image path here
+
+        // Set the available/unavailable class based on the "available" value
+        const availabilityClass = item.available ? 'available' : 'unavailable';
+        const availabilityColor = item.available ? 'green' : 'red';
+
+        card.innerHTML = `
+          <img src="${imageUrl}" alt="${item.recipes.name}" />
+          <h4>${item.recipes.name}</h4>
+          <p style = "font-weight: bold;">₱${parseFloat(item.price).toFixed(2)}</p>
+          <p style="font-size: 0.85rem; color: #555; margin: 5px 10px;">${item.description}</p>
+          <p class="menu-availability" style="color: ${availabilityColor}; font-weight: bold;">${item.available ? 'AVAILABLE' : 'UNAVAILABLE'}</p>
+          <button class="order-btn">Add to Order</button>
+        `;
+
+        container.appendChild(card);
+      } else {
+        console.error("Missing recipes data for menu item:", item);
+      }
+    });
   }
 
-  const container = document.getElementById("menu-container");
-  container.innerHTML = "";  // Clear any previous content
+  fetchMenu();
 
-  data.forEach(item => {
-    if (item.recipes) {  // Check if recipes is not null or undefined
-      const card = document.createElement("div");
-      card.className = "menu-card";
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  if (loggedInUser) {
+    document.getElementById('dropdown-username').textContent = loggedInUser;
+    document.getElementById('login-btn').style.display = 'none';
+    document.getElementById('signup-btn').style.display = 'none';
+    document.getElementById('orders-link').style.display = 'block';
+    document.getElementById('logout-link').style.display = 'block';
+  }
 
-      // Fallback to a default image if no image_url is available
-      const imageUrl = item.recipes.image_url || '../img/default-image.jpg'; // Add your fallback image path here
-
-      card.innerHTML = `
-      <img src="${imageUrl}" alt="${item.recipes.name}" />
-      <h4>${item.recipes.name}</h4>
-      <p style = "font-weight: bold;">₱${parseFloat(item.price).toFixed(2)}</p>
-      <p style="font-size: 0.85rem; color: #555; margin: 5px 10px;">${item.description}</p>
-      <button class="order-btn">Add to Order</button>
-      `;
-
-      container.appendChild(card);
-    } else {
-      console.error("Missing recipes data for menu item:", item);
-    }
+  document.getElementById('logout-link').addEventListener('click', function() {
+    localStorage.removeItem('loggedInUser');
+    window.location.reload();
   });
-}
 
-
-    fetchMenu();
-    const loggedInUser = localStorage.getItem('loggedInUser');
-
-if (loggedInUser) {
-  document.getElementById('dropdown-username').textContent = loggedInUser;
-  document.getElementById('login-btn').style.display = 'none';
-  document.getElementById('signup-btn').style.display = 'none';
-  document.getElementById('orders-link').style.display = 'block';
-  document.getElementById('logout-link').style.display = 'block';
-}
-
-document.getElementById('logout-link').addEventListener('click', function() {
-  localStorage.removeItem('loggedInUser');
-  window.location.reload();
-});
 
 let currentSlide = 0;
 const slides = document.querySelectorAll(".slide");
