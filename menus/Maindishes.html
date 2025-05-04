@@ -244,8 +244,8 @@
         <span style="margin-left: 0.5rem; color: white;" id="dropdown-username">Guest</span>
         <i class="fas fa-chevron-down" style="color: white; margin-left: 0.5rem;"></i>
         <div class="dropdown-content">
-          <a href="#" id="login-btn">Login</a>
-          <a href="#" id="signup-btn">Signup</a>
+          <a href="../user-login.html" id="login-btn">Login</a>
+          <a href="../user-signup.html" id="signup-btn">Signup</a>
           <a href="#" id="orders-link" style="display:none;">Your Orders</a>
           <a href="#" id="logout-link" style="display:none;">Logout</a>
         </div>
@@ -293,178 +293,173 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function fetchMenu() {
-      const { data, error } = await supabase
-        .from("menu")
-        .select(`
-          id,
-          price,
-          description,
-          available,
-          recipes (
-            name,
-            category,
-            image_url
-          )
-        `)
-        .eq('recipes.category', 'Main Dish'); 
+        const { data, error } = await supabase
+            .from("menu")
+            .select(`
+                id,
+                price,
+                description,
+                available,
+                recipes (
+                    name,
+                    category,
+                    image_url
+                )
+            `)
+            .eq('recipes.category', 'Main Dish');
 
-      if (error) {
-        console.error("Error fetching menu:", error);
-        return;
-      }
-
-      const container = document.getElementById("menu-container");
-      container.innerHTML = "";  // Clear any previous content
-
-      data.forEach(item => {
-        if (item.recipes) {  // Check if recipes is not null or undefined
-          const card = document.createElement("div");
-          card.className = "menu-card";
-
-          const imageUrl = item.recipes.image_url || '../img/default-image.jpg';
-
-          const availabilityClass = item.available ? 'available' : 'unavailable';
-          const availabilityColor = item.available ? 'green' : 'red';
-
-          card.innerHTML = `
-            <img src="${imageUrl}" alt="${item.recipes.name}" />
-            <h4>${item.recipes.name}</h4>
-            <p style="font-weight: bold;">₱${parseFloat(item.price).toFixed(2)}</p>
-            <p style="font-size: 0.85rem; color: #555; margin: 5px 10px;">${item.description}</p>
-            <p class="menu-availability" style="color: ${availabilityColor}; font-weight: bold;">${item.available ? 'AVAILABLE' : 'UNAVAILABLE'}</p>
-            <button class="order-btn">Add to Order</button>
-          `;
-
-          card.querySelector(".order-btn").addEventListener("click", () => openOrderModal(item));
-          container.appendChild(card);
+        if (error) {
+            console.error("Error fetching menu:", error);
+            return;
         }
-      });
+
+        const container = document.getElementById("menu-container");
+        container.innerHTML = "";
+
+        data.forEach(item => {
+            if (item.recipes) {
+                const card = document.createElement("div");
+                card.className = "menu-card";
+
+                const imageUrl = item.recipes.image_url || '../img/default-image.jpg';
+                const availabilityColor = item.available ? 'green' : 'red';
+
+                card.innerHTML = `
+                    <img src="${imageUrl}" alt="${item.recipes.name}" />
+                    <h4>${item.recipes.name}</h4>
+                    <p style="font-weight: bold;">₱${parseFloat(item.price).toFixed(2)}</p>
+                    <p style="font-size: 0.85rem; color: #555; margin: 5px 10px;">${item.description}</p>
+                    <p class="menu-availability" style="color: ${availabilityColor}; font-weight: bold;">${item.available ? 'AVAILABLE' : 'UNAVAILABLE'}</p>
+                    <button class="order-btn">Add to Order</button>
+                `;
+
+                card.querySelector(".order-btn").addEventListener("click", () => {
+                    if (!item.available) {
+                        alert("Sorry, this dish is unavailable at the moment.");
+                        return;
+                    }
+                    openOrderModal(item);
+                });
+
+                container.appendChild(card);
+            }
+        });
     }
 
     fetchMenu();
 
-    // Order Modal Handling
-let currentOrderItem = null;
+    let currentOrderItem = null;
 
-function openOrderModal(item) {
-  currentOrderItem = item;  // Save item for later use
-  document.getElementById("modal-dish-name").textContent = item.recipes.name;
-  document.getElementById("order-quantity").value = 1;
-  document.getElementById("order-modal").style.display = "block";
-  document.getElementById("confirm-order").onclick = confirmOrder;
-  document.getElementById("cancel-order").onclick = closeOrderModal;
-}
+    function openOrderModal(item) {
+        currentOrderItem = item;
+        document.getElementById("modal-dish-name").textContent = item.recipes.name;
+        document.getElementById("order-quantity").value = 1;
+        document.getElementById("order-modal").style.display = "block";
+        document.getElementById("confirm-order").onclick = confirmOrder;
+        document.getElementById("cancel-order").onclick = closeOrderModal;
+    }
 
-// Confirm Order
-async function confirmOrder() {
-  const quantity = parseInt(document.getElementById('order-quantity').value);
-  const item = currentOrderItem;
-  const total = quantity * parseFloat(item.price);
+    async function confirmOrder() {
+        const quantity = parseInt(document.getElementById('order-quantity').value);
+        const item = currentOrderItem;
+        const total = quantity * parseFloat(item.price);
 
-  // Get logged-in user's ID from localStorage
-  const loggedInUser = localStorage.getItem('loggedInUser');
-  const customer_id = loggedInUser ? loggedInUser : null; // Use logged-in user ID or null if not logged in
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        if (!loggedInUser) {
+            alert("Please log in to place an order.");
+            return;
+        }
 
-  if (!customer_id) {
-    alert("Please log in to place an order.");
-    return; // Stop execution if no user is logged in
-  }
+        console.log("Logged-in username:", loggedInUser);
 
-  // Insert order into Supabase
-  const { data, error } = await supabase
-    .from('orders')
-    .insert([{
-      customer_id: customer_id,  // Insert the authenticated user's ID
-      product_name: item.recipes.name,
-      quantity: quantity,
-      total_price: total,
-      status: 'pending'
-    }]);
+        const { data: userData, error: userError } = await supabase
+            .from('customers')
+            .select('id')
+            .eq('username', loggedInUser)
+            .single();
 
-  if (error) {
-    console.error("Error placing order:", error.message);
-    alert("Error placing order: " + error.message);
-  } else {
-    showOrderSuccess(); // Show success message
-    closeOrderModal();  // Close the modal
-  }
-}
+        console.log("User Data:", userData);
+        console.error("User Error:", userError);
 
-// Close Order Modal
-function closeOrderModal() {
-  document.getElementById("order-modal").style.display = "none";
-  document.getElementById("order-quantity").value = 1;
-  currentOrderItem = null;
-}
+        if (userError || !userData) {
+            alert("User not found.");
+            console.error("Error fetching user ID:", userError);
+            return;
+        }
 
-// Show Success Message after order
-function showOrderSuccess() {
-  const msgBox = document.getElementById("order-success-msg");
-  msgBox.style.display = "block";
+        const customer_id = userData.id;
 
-  setTimeout(() => {
-    msgBox.style.display = "none";
-  }, 2500); // Hide after 2.5 seconds
-}
+        const { data, error } = await supabase
+            .from('customers_order')
+            .insert([{
+                customer_id: customer_id,
+                menu_item_id: item.id,
+                quantity: quantity,
+                total_price: total,
+                status: 'pending'
+            }]);
 
-// Handle logged-in user display in the UI
-const loggedInUser = localStorage.getItem('loggedInUser');
+        if (error) {
+            console.error("Error placing order:", error.message);
+            alert("Error placing order: " + error.message);
+        } else {
+            showOrderSuccess();
+            closeOrderModal();
+        }
+    }
 
-if (loggedInUser) {
-  document.getElementById('dropdown-username').textContent = loggedInUser;
-  document.getElementById('login-btn').style.display = 'none';
-  document.getElementById('signup-btn').style.display = 'none';
-  document.getElementById('orders-link').style.display = 'block';
-  document.getElementById('logout-link').style.display = 'block';
-}
+    function closeOrderModal() {
+        document.getElementById("order-modal").style.display = "none";
+        document.getElementById("order-quantity").value = 1;
+        currentOrderItem = null;
+    }
 
-document.getElementById('logout-link').addEventListener('click', function() {
-  localStorage.removeItem('loggedInUser');
-  window.location.reload();
-});
+    function showOrderSuccess() {
+        const msgBox = document.getElementById("order-success-msg");
+        msgBox.style.display = "block";
 
-// Image carousel logic
-let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
-const indicators = document.querySelectorAll(".indicator");
+        setTimeout(() => {
+            msgBox.style.display = "none";
+        }, 2500);
+    }
 
-function showSlide(index) {
-  slides.forEach((slide, i) => {
-    slide.classList.remove("active");
-    if (indicators[i]) indicators[i].classList.remove("active");
-  });
-  slides[index].classList.add("active");
-  if (indicators[index]) indicators[index].classList.add("active");
-  currentSlide = index;
-}
+    // Handle logged-in user display
+    const loggedInUser = localStorage.getItem('loggedInUser');
 
-function nextSlide() {
-  currentSlide = (currentSlide + 1) % slides.length;
-  showSlide(currentSlide);
-}
+    if (loggedInUser) {
+        document.getElementById('dropdown-username').textContent = loggedInUser;
+        document.getElementById('login-btn').style.display = 'none';
+        document.getElementById('signup-btn').style.display = 'none';
+        document.getElementById('orders-link').style.display = 'block';
+        document.getElementById('logout-link').style.display = 'block';
+    }
 
-setInterval(nextSlide, 3000);
+    document.getElementById('logout-link').addEventListener('click', function () {
+        localStorage.removeItem('loggedInUser');
+        window.location.reload();
+    });
 
-// MODALS (Login and Signup)
-const loginModal = document.getElementById("login-modal");
-const signupModal = document.getElementById("signup-modal");
-const loginBtn = document.getElementById("login-btn");
-const signupBtn = document.getElementById("signup-btn");
-const closeLogin = document.getElementById("close-login");
-const closeSignup = document.getElementById("close-signup");
+    // Image carousel logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+    const indicators = document.querySelectorAll(".indicator");
 
-loginBtn.addEventListener("click", () => loginModal.style.display = "block");
-signupBtn.addEventListener("click", () => signupModal.style.display = "block");
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove("active");
+            if (indicators[i]) indicators[i].classList.remove("active");
+        });
+        slides[index].classList.add("active");
+        if (indicators[index]) indicators[index].classList.add("active");
+        currentSlide = index;
+    }
 
-closeLogin.addEventListener("click", () => loginModal.style.display = "none");
-closeSignup.addEventListener("click", () => signupModal.style.display = "none");
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
 
-window.addEventListener("click", (event) => {
-  if (event.target == loginModal) loginModal.style.display = "none";
-  if (event.target == signupModal) signupModal.style.display = "none";
-});
-
-  </script>
-
+    setInterval(nextSlide, 3000);
+</script>
 </body>
 </html>

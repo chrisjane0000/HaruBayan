@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Menu - Street Food & Snacks</title>
+  <title>Menu - Street Foods & Snacks</title>
   <link rel="icon" type="image/png" href="../img/mainpics/logo/logo-harubayan.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -211,6 +211,22 @@
     .back-button a:hover {
       background-color: #751d2e;
     }
+
+       /* Order Modal Styles */
+       #order-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 2px solid #9b001e;
+      padding: 20px;
+      z-index: 2000;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
   </style>
 </head>
 <body>
@@ -254,6 +270,21 @@
     <a href="../Menu-categories.html">&larr; Back to Menu Categories</a>
   </div>
 
+  <!-- Order Modal -->
+  <div id="order-modal">
+    <h3 id="modal-dish-name" style="margin-bottom: 10px;">Order</h3>
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="order-quantity" min="1" value="1" style="width: 60px; margin-left: 10px;" />
+    <div style="margin-top: 15px;">
+      <button id="confirm-order" style="background: #9b001e; color: white; padding: 6px 12px; border: none; border-radius: 5px; margin-right: 10px;">Confirm</button>
+      <button id="cancel-order" style="background: #ccc; color: black; padding: 6px 12px; border: none; border-radius: 5px;">Cancel</button>
+    </div>
+  </div>
+
+  <div id="order-success-msg" style="display:none; position: fixed; top: 20px; right: 20px; background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 999;">
+    ✅ Order placed successfully!
+  </div>
+
   <footer>
     &copy; 2025 Haru Bayan. Created by MyTech Corp.
   </footer>
@@ -266,113 +297,171 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function fetchMenu() {
-      const { data, error } = await supabase
-        .from("menu")
-        .select(`
-          id,
-          price,
-          description,
-          available,
-          recipes (
-            name,
-            category,
-            image_url
-          )
-        `)
-        .eq('recipes.category', 'Street Food & Snacks'); 
-  
-      if (error) {
-        console.error("Error fetching menu:", error);
-        return;
-      }
-  
-      const container = document.getElementById("menu-container");
-      container.innerHTML = "";  // Clear any previous content
-  
-      data.forEach(item => {
-        if (item.recipes) {  // Check if recipes is not null or undefined
-          const card = document.createElement("div");
-          card.className = "menu-card";
-  
-          // Fallback to a default image if no image_url is available
-          const imageUrl = item.recipes.image_url || '../img/default-image.jpg'; // Add your fallback image path here
-  
-          // Set the available/unavailable class based on the "available" value
-          const availabilityClass = item.available ? 'available' : 'unavailable';
-          const availabilityColor = item.available ? 'green' : 'red';
-  
-          card.innerHTML = `
-            <img src="${imageUrl}" alt="${item.recipes.name}" />
-            <h4>${item.recipes.name}</h4>
-            <p style = "font-weight: bold;">₱${parseFloat(item.price).toFixed(2)}</p>
-            <p style="font-size: 0.85rem; color: #555; margin: 5px 10px;">${item.description}</p>
-            <p class="menu-availability" style="color: ${availabilityColor}; font-weight: bold;">${item.available ? 'AVAILABLE' : 'UNAVAILABLE'}</p>
-            <button class="order-btn">Add to Order</button>
-          `;
-  
-          container.appendChild(card);
-        } else {
-          console.error("Missing recipes data for menu item:", item);
+        const { data, error } = await supabase
+            .from("menu")
+            .select(`
+                id,
+                price,
+                description,
+                available,
+                recipes (
+                    name,
+                    category,
+                    image_url
+                )
+            `)
+            .eq('recipes.category', 'Street Food & Snacks');
+
+        if (error) {
+            console.error("Error fetching menu:", error);
+            return;
         }
-      });
+
+        const container = document.getElementById("menu-container");
+        container.innerHTML = "";
+
+        data.forEach(item => {
+            if (item.recipes) {
+                const card = document.createElement("div");
+                card.className = "menu-card";
+
+                const imageUrl = item.recipes.image_url || '../img/default-image.jpg';
+                const availabilityColor = item.available ? 'green' : 'red';
+
+                card.innerHTML = `
+                    <img src="${imageUrl}" alt="${item.recipes.name}" />
+                    <h4>${item.recipes.name}</h4>
+                    <p style="font-weight: bold;">₱${parseFloat(item.price).toFixed(2)}</p>
+                    <p style="font-size: 0.85rem; color: #555; margin: 5px 10px;">${item.description}</p>
+                    <p class="menu-availability" style="color: ${availabilityColor}; font-weight: bold;">${item.available ? 'AVAILABLE' : 'UNAVAILABLE'}</p>
+                    <button class="order-btn">Add to Order</button>
+                `;
+
+                card.querySelector(".order-btn").addEventListener("click", () => {
+                    if (!item.available) {
+                        alert("Sorry, this dish is unavailable at the moment.");
+                        return;
+                    }
+                    openOrderModal(item);
+                });
+
+                container.appendChild(card);
+            }
+        });
     }
-  
+
     fetchMenu();
-  
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    if (loggedInUser) {
-      document.getElementById('dropdown-username').textContent = loggedInUser;
-      document.getElementById('login-btn').style.display = 'none';
-      document.getElementById('signup-btn').style.display = 'none';
-      document.getElementById('orders-link').style.display = 'block';
-      document.getElementById('logout-link').style.display = 'block';
+
+    let currentOrderItem = null;
+
+    function openOrderModal(item) {
+        currentOrderItem = item;
+        document.getElementById("modal-dish-name").textContent = item.recipes.name;
+        document.getElementById("order-quantity").value = 1;
+        document.getElementById("order-modal").style.display = "block";
+        document.getElementById("confirm-order").onclick = confirmOrder;
+        document.getElementById("cancel-order").onclick = closeOrderModal;
     }
-  
-    document.getElementById('logout-link').addEventListener('click', function() {
-      localStorage.removeItem('loggedInUser');
-      window.location.reload();
+
+    async function confirmOrder() {
+        const quantity = parseInt(document.getElementById('order-quantity').value);
+        const item = currentOrderItem;
+        const total = quantity * parseFloat(item.price);
+
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        if (!loggedInUser) {
+            alert("Please log in to place an order.");
+            return;
+        }
+
+        console.log("Logged-in username:", loggedInUser);
+
+        const { data: userData, error: userError } = await supabase
+            .from('customers')
+            .select('id')
+            .eq('username', loggedInUser)
+            .single();
+
+        console.log("User Data:", userData);
+        console.error("User Error:", userError);
+
+        if (userError || !userData) {
+            alert("User not found.");
+            console.error("Error fetching user ID:", userError);
+            return;
+        }
+
+        const customer_id = userData.id;
+
+        const { data, error } = await supabase
+            .from('customers_order')
+            .insert([{
+                customer_id: customer_id,
+                menu_item_id: item.id,
+                quantity: quantity,
+                total_price: total,
+                status: 'pending'
+            }]);
+
+        if (error) {
+            console.error("Error placing order:", error.message);
+            alert("Error placing order: " + error.message);
+        } else {
+            showOrderSuccess();
+            closeOrderModal();
+        }
+    }
+
+    function closeOrderModal() {
+        document.getElementById("order-modal").style.display = "none";
+        document.getElementById("order-quantity").value = 1;
+        currentOrderItem = null;
+    }
+
+    function showOrderSuccess() {
+        const msgBox = document.getElementById("order-success-msg");
+        msgBox.style.display = "block";
+
+        setTimeout(() => {
+            msgBox.style.display = "none";
+        }, 2500);
+    }
+
+    // Handle logged-in user display
+    const loggedInUser = localStorage.getItem('loggedInUser');
+
+    if (loggedInUser) {
+        document.getElementById('dropdown-username').textContent = loggedInUser;
+        document.getElementById('login-btn').style.display = 'none';
+        document.getElementById('signup-btn').style.display = 'none';
+        document.getElementById('orders-link').style.display = 'block';
+        document.getElementById('logout-link').style.display = 'block';
+    }
+
+    document.getElementById('logout-link').addEventListener('click', function () {
+        localStorage.removeItem('loggedInUser');
+        window.location.reload();
     });
 
-let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
-const indicators = document.querySelectorAll(".indicator");
+    // Image carousel logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+    const indicators = document.querySelectorAll(".indicator");
 
-function showSlide(index) {
-  slides.forEach((slide, i) => {
-    slide.classList.remove("active");
-    if (indicators[i]) indicators[i].classList.remove("active");
-  });
-  slides[index].classList.add("active");
-  if (indicators[index]) indicators[index].classList.add("active");
-  currentSlide = index;
-}
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove("active");
+            if (indicators[i]) indicators[i].classList.remove("active");
+        });
+        slides[index].classList.add("active");
+        if (indicators[index]) indicators[index].classList.add("active");
+        currentSlide = index;
+    }
 
-function nextSlide() {
-  currentSlide = (currentSlide + 1) % slides.length;
-  showSlide(currentSlide);
-}
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
 
-setInterval(nextSlide, 3000);
-
-// MODALS (Login and Signup)
-const loginModal = document.getElementById("login-modal");
-const signupModal = document.getElementById("signup-modal");
-const loginBtn = document.getElementById("login-btn");
-const signupBtn = document.getElementById("signup-btn");
-const closeLogin = document.getElementById("close-login");
-const closeSignup = document.getElementById("close-signup");
-
-loginBtn.addEventListener("click", () => loginModal.style.display = "block");
-signupBtn.addEventListener("click", () => signupModal.style.display = "block");
-
-closeLogin.addEventListener("click", () => loginModal.style.display = "none");
-closeSignup.addEventListener("click", () => signupModal.style.display = "none");
-
-window.addEventListener("click", (event) => {
-  if (event.target == loginModal) loginModal.style.display = "none";
-  if (event.target == signupModal) signupModal.style.display = "none";
-});
-  </script>
-
-</body>
-</html>
+    setInterval(nextSlide, 3000);
+</script>
