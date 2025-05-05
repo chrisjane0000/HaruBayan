@@ -2,331 +2,343 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Order Page</title>
-  <link rel="icon" type="image/png" href="../HaruBayan/img/mainpics/logo/logo-harubayan.png"/>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Orders - Haru Bayan</title>
+  <link rel="icon" type="image/png" href="../img/mainpics/logo/logo-harubayan.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
-      background-color: #f0f2f5;
-      color: #333;
+      padding: 0;
+      background-color: #f8f9fa;
     }
 
-    /* Order Section */
-    .order-section {
-      max-width: 800px;
-      margin: 30px auto;
-      padding: 40px;
-      background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-
-    .order-section:hover {
-      transform: translateY(-10px);
-    }
-
-    .modal-header {
-      text-align: center;
-      font-size: 28px;
-      font-weight: 600;
-      color: #b22d46;
-      margin-bottom: 25px;
-    }
-
-    /* Order Item */
-    .order-item {
-      display: flex;
-      align-items: center;
-      margin: 20px 0;
-      padding: 15px;
-      border-radius: 10px;
-      background-color: #fafafa;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-
-    .order-item:hover {
-      transform: scale(1.02);
-    }
-
-    .order-item img {
-      width: 80px;
-      height: 80px;
-      border-radius: 10px;
-      margin-right: 20px;
-      object-fit: cover;
-    }
-
-    .item-info {
-      flex-grow: 1;
-    }
-
-    .item-info div:first-child {
-      font-size: 20px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    .item-info div:last-child {
-      font-size: 18px;
-      color: #888;
-    }
-
-    .item-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .item-controls button {
-      padding: 10px 18px;
-      background-color: #b22d46;
+    header {
+      background-color: #7f8c8d;
       color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 18px;
-      transition: background-color 0.3s ease;
+      padding: 10px 0;
+      text-align: center;
     }
 
-    .item-controls button:hover {
-      background-color: #9c2544;
+    header .user-info {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 20px;
     }
 
-    .dropdowns {
-      margin-top: 30px;
+    header .dropdown {
+      position: relative;
+      display: inline-block;
     }
 
-    .dropdowns label {
-      font-size: 16px;
-      font-weight: 500;
-      color: #333;
-      margin-bottom: 8px;
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border-radius: 5px;
+    }
+
+    .dropdown:hover .dropdown-content {
       display: block;
     }
 
-    .dropdowns select {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      background-color: #fff;
-      transition: border 0.3s ease;
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
     }
 
-    .dropdowns select:focus {
-      border: 1px solid #b22d46;
+    .dropdown-content a:hover {
+      background-color: #ddd;
     }
 
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-    }
-
-    .buttons button {
-      width: 48%;
-      padding: 14px;
-      font-size: 20px;
-      background-color: #b22d46;
+    .title-section {
+      background-color: #9b001e;
       color: white;
-      border: none;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .title-section h2 {
+      margin: 0;
+    }
+
+    #orders-container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .order-card {
+      background-color: white;
+      padding: 15px;
       border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: left;
     }
 
-    .buttons button:hover {
-      background-color: #9c2544;
+    .order-card h4 {
+      font-size: 18px;
+      color: #9b001e;
     }
 
-    /* Modal Background */
+    .order-card p {
+      font-size: 14px;
+      color: #555;
+      margin: 5px 0;
+    }
+
+    .review-receipt-section {
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    footer {
+      background-color: #7f8c8d;
+      color: white;
+      text-align-last: center;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
     .modal {
       display: none;
       position: fixed;
-      z-index: 100;
+      z-index: 1;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.3s ease;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-top: 60px;
     }
 
-    /* Modal Content */
     .modal-content {
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      width: 320px;
-      text-align: center;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .modal-content button {
-      padding: 12px 25px;
-      background-color: #b22d46;
+    .modal-header, .modal-footer {
+      padding: 10px 0;
+    }
+
+    .modal-footer {
+      text-align: center;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      background-color: #9b001e;
       color: white;
       border: none;
-      border-radius: 8px;
-      margin: 15px 0;
+      border-radius: 5px;
       cursor: pointer;
-      font-size: 18px;
-      transition: background-color 0.3s ease;
     }
 
-    .modal-content button:hover {
-      background-color: #9c2544;
-    }
-
-    .ticket-details {
-      margin-top: 20px;
-      text-align: left;
-      font-size: 16px;
-      line-height: 1.8;
+    .modal-btn:hover {
+      background-color: #7f1a2b;
     }
   </style>
 </head>
 <body>
 
-<!-- Order Section -->
-<div class="order-section">
-  <div class="modal-header">YOUR ORDERS</div>
+  <section class="title-section">
+    <h2>Your Orders</h2>
+  </section>
 
-  <!-- Order Item 1 -->
-  <div class="order-item">
-    <img src="img/menu/ricedish/omurice-ricedish.jpg" alt="Omurice">
-    <div class="item-info">
-      <div>OMURICE</div>
-      <div>₱100.00</div>
+  <section id="orders-container">
+    <!-- Orders will be dynamically injected here -->
+  </section>
+
+  <!-- Review Receipt Button -->
+  <section class="review-receipt-section">
+    <button id="open-receipt-btn" class="modal-btn">Review Receipt</button>
+  </section>
+
+  <!-- Receipt Modal -->
+  <div id="receipt-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Your Receipt:</h3>
+      </div>
+      <div id="receipt-details">
+        <!-- Dynamic receipt details will be displayed here -->
+      </div>
+
+      <div style="margin: 15px 0;">
+        <label for="order-type" style="font-weight: 600;">Order Type:</label>
+        <select id="order-type" style="padding: 8px; border-radius: 5px; width: 100%; margin-top: 5px;">
+          <option value="dine-in">Dine-In</option>
+          <option value="takeout">Takeout</option>
+        </select>
+      </div>
+
+
+      <div class="modal-footer">
+        <button id="confirm-btn" class="modal-btn">Confirm Order</button>
+      </div>
     </div>
-    <div class="item-controls">
-      <button onclick="changeQty('qty1', 1)">+</button>
-      <span id="qty1">1</span>
-      <button onclick="changeQty('qty1', -1)">−</button>
+  </div>
+
+  <!-- Thank You Modal -->
+  <div id="thank-you-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Thank You!</h3>
+      </div>
+      <div class="modal-footer">
+        <button id="close-btn" class="modal-btn">Close</button>
+      </div>
     </div>
   </div>
 
-  <!-- Order Item 2 -->
-  <div class="order-item">
-    <img src="img/menu/ricedish/onigiri.jpg" alt="Onigiri">
-    <div class="item-info">
-      <div>ONIGIRI</div>
-      <div>₱50.00</div>
-    </div>
-    <div class="item-controls">
-      <button onclick="changeQty('qty2', 1)">+</button>
-      <span id="qty2">1</span>
-      <button onclick="changeQty('qty2', -1)">−</button>
-    </div>
-  </div>
+  <footer>
+    &copy; 2025 Haru Bayan. Created by MyTech Corp.
+  </footer>
 
-  <!-- Dropdowns -->
-  <div class="dropdowns">
-    <label for="orderType">ORDER TYPE:</label>
-    <select id="orderType">
-      <option>DINE-IN</option>
-      <option>TAKE-OUT</option>
-    </select>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js";
 
-    <label for="paymentMethod">PAYMENT METHOD:</label>
-    <select id="paymentMethod">
-      <option>GCASH</option>
-      <option>CASH</option>
-      <option>CARD</option>
-    </select>
-  </div>
+    const SUPABASE_URL = 'https://lngdoqimxolarajflobo.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuZ2RvcWlteG9sYXJhamZsb2JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0MjQ5MDQsImV4cCI6MjA2MDAwMDkwNH0.hDroH3E7cq-RHh8iGsbg5s1tdYVSHMI94ZSZXzoABic';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  <!-- Buttons -->
-  <div class="buttons">
-    <button id="buyButton" onclick="showModal()">₱00.00</button>
-    <button onclick="cancelOrder()">CANCEL</button>
-  </div>
-</div>
+    let ordersData = [];
 
-<!-- Confirmation Modal -->
-<div id="confirmationModal" class="modal">
-  <div class="modal-content">
-    <p>Order Confirmation</p>
-    <p>Are you sure you want to proceed?</p>
-    <button onclick="confirmOrder()">Confirm</button>
-    <button onclick="cancelOrder()">Cancel</button>
-  </div>
-</div>
+    async function fetchOrders() {
+      const loggedInUser = localStorage.getItem('loggedInUser');
+      if (!loggedInUser) {
+        alert("Please log in to view your orders.");
+        return;
+      }
 
-<!-- Ticket Modal -->
-<div id="ticketModal" class="modal">
-  <div class="modal-content">
-    <h3>Order Ticket</h3>
-    <div id="ticketDetails" class="ticket-details"></div>
-    <button onclick="closeTicketModal()">Close</button>
-  </div>
-</div>
+      const { data: userData, error: userError } = await supabase
+        .from('customers')
+        .select('id')
+        .eq('username', loggedInUser)
+        .single();
 
-<!-- Quantity Script -->
-<script>
-  function changeQty(id, delta) {
-    const el = document.getElementById(id);
-    let qty = parseInt(el.innerText);
-    qty = Math.max(0, qty + delta);
-    el.innerText = qty;
-    updateTotal();
-  }
+      if (userError || !userData) {
+        alert("User not found.");
+        return;
+      }
 
-  function showModal() {
-    document.getElementById('confirmationModal').style.display = 'flex';
-  }
+      const customer_id = userData.id;
 
-  function confirmOrder() {
-    document.getElementById('confirmationModal').style.display = 'none';
-    document.getElementById('ticketModal').style.display = 'flex';
-    
-    const items = [
-      { name: 'OMURICE', price: 100, qty: parseInt(document.getElementById('qty1').innerText) },
-      { name: 'ONIGIRI', price: 50, qty: parseInt(document.getElementById('qty2').innerText) }
-    ];
-    
-    let ticketDetails = '';
-    let total = 0;
-    
-    items.forEach(item => {
-      const itemTotal = item.price * item.qty;
-      total += itemTotal;
-      ticketDetails += `<div>${item.name} x ${item.qty} = ₱${itemTotal}</div>`;
+      const { data: orders, error: ordersError } = await supabase
+        .from('customers_order')
+        .select(`
+          id,
+          menu_item_id,
+          quantity,
+          total_price,
+          order_date,
+          status,
+          menu_item: menu(id, price, description, recipes(name, image_url))
+        `)
+        .eq('customer_id', customer_id)
+        .eq('status', 'pending');
+
+      if (ordersError) {
+        console.error("Error fetching orders:", ordersError);
+        return;
+      }
+
+      ordersData = orders;
+
+      const container = document.getElementById('orders-container');
+      container.innerHTML = '';
+
+      if (orders.length === 0) {
+        container.innerHTML = '<p>You have no orders yet.</p>';
+        return;
+      }
+
+      orders.forEach(order => {
+        const card = document.createElement('div');
+        card.className = 'order-card';
+        const orderDate = new Date(order.order_date).toLocaleString();
+
+        card.innerHTML = `
+          <div>
+            <h4>Dish: ${order.menu_item.recipes.name}</h4>
+            <p>Quantity: ${order.quantity}</p>
+            <p>Total Price: ₱${order.total_price.toFixed(2)}</p>
+            <p>Order Date: ${orderDate}</p>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    fetchOrders();
+
+    document.getElementById('open-receipt-btn').addEventListener('click', () => {
+      const receiptDetails = document.getElementById('receipt-details');
+      if (ordersData.length === 0) {
+        receiptDetails.innerHTML = '<p>No items in your receipt.</p>';
+      } else {
+        const orderLines = ordersData.map(order => `
+          <p>Dish: ${order.menu_item.recipes.name} | Quantity: ${order.quantity} | Total: ₱${order.total_price.toFixed(2)}</p>
+        `).join('');
+
+        const grandTotal = ordersData.reduce((sum, order) => sum + order.total_price, 0);
+
+        receiptDetails.innerHTML = `
+          ${orderLines}
+          <hr />
+          <p><strong>Grand Total: ₱${grandTotal.toFixed(2)}</strong></p>
+        `;
+      }
+      document.getElementById('receipt-modal').style.display = 'block';
     });
-    
-    ticketDetails += `<div><strong>Total: ₱${total}</strong></div>`;
-    document.getElementById('ticketDetails').innerHTML = ticketDetails;
-  }
 
-  function cancelOrder() {
-  document.getElementById('confirmationModal').style.display = 'none';
-  window.location.href = 'Menu-categories.html'; // Redirect to menu.html
-}
+    document.getElementById('confirm-btn').addEventListener('click', async function () {
+  const orderType = document.getElementById('order-type').value;
+  document.getElementById('orders-container').innerHTML = '';
 
-  function closeTicketModal() {
-    document.getElementById('ticketModal').style.display = 'none';
-  }
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  if (!loggedInUser) return;
 
-  function updateTotal() {
-    const omuricePrice = 100 * parseInt(document.getElementById('qty1').innerText);
-    const onigiriPrice = 50 * parseInt(document.getElementById('qty2').innerText);
-    const total = omuricePrice + onigiriPrice;
-    document.getElementById('buyButton').innerText = `₱${total}`;
-  }
+  const { data: userData, error: userError } = await supabase
+    .from('customers')
+    .select('id')
+    .eq('username', loggedInUser)
+    .single();
 
-  function cancelOrder() {
-  window.location.href = 'Menu-categories.html'; // Redirect to menu.html when canceled
-}
+  if (userError || !userData) return;
 
-</script>
+  const customer_id = userData.id;
 
+  await supabase
+    .from('customers_order')
+    .update({ order_type: orderType, status: 'confirmed' }) // You can also update status here
+    .eq('customer_id', customer_id)
+    .eq('status', 'pending');
+
+  document.getElementById('receipt-modal').style.display = 'none';
+  document.getElementById('thank-you-modal').style.display = 'block';
+});
+
+    document.getElementById('close-btn').addEventListener('click', function () {
+      document.getElementById('thank-you-modal').style.display = 'none';
+    });
+  </script>
 </body>
 </html>
