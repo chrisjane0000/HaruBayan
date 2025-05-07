@@ -15,144 +15,215 @@
       background-color: #f8f9fa;
     }
 
-    header {
-      background-color: #7f8c8d;
+    header, footer {
+      background-color: #9b001e;
       color: white;
-      padding: 10px 0;
       text-align: center;
-    }
-
-    header .user-info {
-      display: flex;
-      justify-content: flex-end;
-      padding: 10px 20px;
-    }
-
-    header .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f1f1f1;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-      border-radius: 5px;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #ddd;
+      padding: 10px 0;
     }
 
     .title-section {
       background-color: #9b001e;
       color: white;
       text-align: center;
-      padding: 40px;
-    }
-
-    .title-section h2 {
-      margin: 0;
+      padding: 1px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      font-size: 20px;
+      font-weight: 600;
     }
 
     #orders-container {
       padding: 20px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 20px;
     }
 
-    .order-card {
-      background-color: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: left;
-    }
+    #orders-container {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Creates 4 equal columns */
+  gap: 20px;
+  justify-items: center; /* Center the cards horizontally */
+}
 
-    .order-card h4 {
-      font-size: 18px;
-      color: #9b001e;
-    }
+.order-card {
+  background-color: white;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 280px;  /* Adjust width for better layout */
+  margin: 0 auto;
+}
 
-    .order-card p {
-      font-size: 14px;
-      color: #555;
-      margin: 5px 0;
-    }
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
 
-    .review-receipt-section {
-      text-align: center;
-      margin: 40px 0;
-    }
+.order-card h4 {
+  font-size: 18px;
+  color: #9b001e;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
 
-    footer {
-      background-color: #7f8c8d;
-      color: white;
-      text-align-last: center;
-      padding: 10px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
+.order-card p {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+}
+
+.order-card button {
+  padding: 8px 20px;
+  background-color: #9b001e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+  margin-top: 10px;
+}
+
+.order-card button:hover {
+  background-color: #7a0018;
+}
+
 
     .modal {
       display: none;
       position: fixed;
-      z-index: 1;
+      z-index: 9999;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
       overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
+      background-color: rgba(0, 0, 0, 0.5);
       padding-top: 60px;
     }
 
     .modal-content {
       background-color: #fff;
-      margin: 5% auto;
-      padding: 20px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 500px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 350px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.3s ease-in-out;
     }
 
-    .modal-header, .modal-footer {
-      padding: 10px 0;
+    .modal-header h3 {
+      margin: 0;
+      font-size: 22px;
+      color: #9b001e;
+      text-align: center;
+      font-weight: 600;
     }
 
     .modal-footer {
+      margin-top: 20px;
       text-align: center;
     }
 
     .modal-btn {
-      padding: 10px 20px;
+      padding: 10px 24px;
       background-color: #9b001e;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s ease-in-out;
     }
 
     .modal-btn:hover {
-      background-color: #7f1a2b;
+      background-color: #7a0018;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .review-receipt-section {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+    text-align: center;
+
+}
+
+.review-receipt-section:hover {
+  transform: translateY(-3px);
+}
+
+#open-receipt-btn {
+  font-size: 16px;
+  padding: 10px 17px;
+  background-color: #ce153a;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 228, 228, 0.2);
+ font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+
+#open-receipt-btn:hover {
+  background-color: #e00031;
+}
+
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .custom-dropdown {
+  padding: 10px 15px;
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid #9b001e;
+  background-color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239b001e'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 12px;
+  cursor: pointer;
+  transition: border 0.3s ease;
+}
+
+.custom-dropdown:focus {
+  outline: none;
+  border-color: #ce153a;
+  box-shadow: 0 0 0 3px rgba(205, 0, 36, 0.2);
+}
+.close-btn {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #9b001e;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+
+
+
   </style>
 </head>
 <body>
@@ -161,34 +232,29 @@
     <h2>Your Orders</h2>
   </section>
 
-  <section id="orders-container">
-    <!-- Orders will be dynamically injected here -->
-  </section>
+  <section id="orders-container"></section>
 
-  <!-- Review Receipt Button -->
   <section class="review-receipt-section">
-    <button id="open-receipt-btn" class="modal-btn">Review Receipt</button>
+    <button id="open-receipt-btn" class="modal-btn">Place Order →</button>
   </section>
 
   <!-- Receipt Modal -->
   <div id="receipt-modal" class="modal">
     <div class="modal-content">
-      <div class="modal-header">
-        <h3>Your Receipt:</h3>
+      <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <h3>Your Orders to Confirm:</h3>
+        <span class="close-btn" onclick="closeModal('receipt-modal')">&times;</span>
       </div>
-      <div id="receipt-details">
-        <!-- Dynamic receipt details will be displayed here -->
-      </div>
-
+            <div id="receipt-details"></div>
       <div style="margin: 15px 0;">
         <label for="order-type" style="font-weight: 600;">Order Type:</label>
-        <select id="order-type" style="padding: 8px; border-radius: 5px; width: 100%; margin-top: 5px;">
-          <option value="dine-in">Dine-In</option>
-          <option value="takeout">Takeout</option>
+          <select id="order-type" class="custom-dropdown">
+            <option value="dine-in">🍽️ Dine-In</option>
+            <option value="takeout">🥡 Takeout</option>
+          </select>
+          
         </select>
       </div>
-
-
       <div class="modal-footer">
         <button id="confirm-btn" class="modal-btn">Confirm Order</button>
       </div>
@@ -198,14 +264,60 @@
   <!-- Thank You Modal -->
   <div id="thank-you-modal" class="modal">
     <div class="modal-content">
-      <div class="modal-header">
-        <h3>Thank You!</h3>
+      <div class="modal-header"><h3>Thank You!</h3></div>
+      <div class="modal-footer"><button id="close-btn" class="modal-btn">Close</button></div>
+    </div>
+  </div>
+
+  <!-- Edit Quantity Modal -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Edit Quantity</h3></div>
+      <div style="display: flex; justify-content: center;">
+        <input type="number" id="edit-quantity-input" min="1" style="width: 80%; padding: 10px; margin: 8px 0;" />
       </div>
-      <div class="modal-footer">
-        <button id="close-btn" class="modal-btn">Close</button>
+            <div class="modal-footer">
+        <button id="save-edit-btn" class="modal-btn">Save</button>
+        <button onclick="closeModal('edit-modal')" class="modal-btn">Cancel</button>
       </div>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="delete-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header"><h3>Remove Dish</h3></div>
+      <p>Are you sure you want to remove this dish?</p>
+      <div class="modal-footer">
+        <button id="confirm-delete-btn" class="modal-btn">Yes, Delete</button>
+        <button onclick="closeModal('delete-modal')" class="modal-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- e add rani sya ubos sa order date sa orders.forEach(order => na part
+   <button class="modal-btn" onclick="openEditModal(${order.id}, ${order.quantity}, ${order.menu_item.price})">Edit</button>
+    <button class="modal-btn" onclick="openDeleteModal(${order.id})">Remove</button>  
+    -->
+
+    <div style="position: fixed; top: 40px; left: 20px; z-index: 1000;">
+      <button onclick="history.back()" style="
+        background-color: #ffb7c4;
+        color: rgb(12, 12, 12);
+        font-size: 20;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(245, 240, 240, 0.24);
+      ">
+        ← Back
+      </button>
+    </div>
+    
+    </div>
+    
 
   <footer>
     &copy; 2025 Haru Bayan. Created by MyTech Corp.
@@ -213,68 +325,48 @@
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js";
-
-    const SUPABASE_URL = 'https://lngdoqimxolarajflobo.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuZ2RvcWlteG9sYXJhamZsb2JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0MjQ5MDQsImV4cCI6MjA2MDAwMDkwNH0.hDroH3E7cq-RHh8iGsbg5s1tdYVSHMI94ZSZXzoABic';
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
+    
+    const supabase = createClient(
+      'https://lngdoqimxolarajflobo.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuZ2RvcWlteG9sYXJhamZsb2JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0MjQ5MDQsImV4cCI6MjA2MDAwMDkwNH0.hDroH3E7cq-RHh8iGsbg5s1tdYVSHMI94ZSZXzoABic'
+    );
+    
     let ordersData = [];
-
+    let editOrderId = null;
+    let editUnitPrice = 0;
+    let deleteOrderId = null;
+    
     async function fetchOrders() {
       const loggedInUser = localStorage.getItem('loggedInUser');
-      if (!loggedInUser) {
-        alert("Please log in to view your orders.");
-        return;
-      }
-
-      const { data: userData, error: userError } = await supabase
+      if (!loggedInUser) return alert("Please log in to view your orders.");
+    
+      const { data: userData } = await supabase
         .from('customers')
         .select('id')
         .eq('username', loggedInUser)
         .single();
-
-      if (userError || !userData) {
-        alert("User not found.");
-        return;
-      }
-
-      const customer_id = userData.id;
-
-      const { data: orders, error: ordersError } = await supabase
+    
+      if (!userData) return alert("User not found.");
+    
+      const { data: orders } = await supabase
         .from('customers_order')
-        .select(`
-          id,
-          menu_item_id,
-          quantity,
-          total_price,
-          order_date,
-          status,
-          menu_item: menu(id, price, description, recipes(name, image_url))
-        `)
-        .eq('customer_id', customer_id)
-        .eq('status', 'pending');
-
-      if (ordersError) {
-        console.error("Error fetching orders:", ordersError);
-        return;
-      }
-
-      ordersData = orders;
-
+        .select(`id, menu_item_id, quantity, total_price, order_date, status, menu_item: menu(id, price, description, recipes(name, image_url))`)
+        .eq('customer_id', userData.id)
+        .eq('status', 'pending');  // Fetch only pending orders
+    
+      ordersData = orders || [];
+    
       const container = document.getElementById('orders-container');
-      container.innerHTML = '';
-
-      if (orders.length === 0) {
-        container.innerHTML = '<p>You have no orders yet.</p>';
-        return;
-      }
-
+      container.innerHTML = orders.length === 0
+        ? '<p>You have no orders yet.</p>'
+        : '';
+    
       orders.forEach(order => {
         const card = document.createElement('div');
         card.className = 'order-card';
         const orderDate = new Date(order.order_date).toLocaleString();
-
         card.innerHTML = `
+          <img src="${order.menu_item.recipes.image_url}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px 8px 0 0; margin-bottom: 2px;">
           <div>
             <h4>Dish: ${order.menu_item.recipes.name}</h4>
             <p>Quantity: ${order.quantity}</p>
@@ -282,63 +374,128 @@
             <p>Order Date: ${orderDate}</p>
           </div>
         `;
-
         container.appendChild(card);
       });
     }
-
-    fetchOrders();
-
+    
+    window.openEditModal = function (id, qty, price) {
+      editOrderId = id;
+      editUnitPrice = price;
+      document.getElementById('edit-quantity-input').value = qty;
+      document.getElementById('edit-modal').style.display = 'block';
+    };
+    
+    window.openDeleteModal = function (id) {
+      deleteOrderId = id;
+      document.getElementById('delete-modal').style.display = 'block';
+    };
+    
+    window.closeModal = function (modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    };
+    
+    document.getElementById('save-edit-btn').addEventListener('click', async () => {
+      const newQty = parseInt(document.getElementById('edit-quantity-input').value);
+      if (!newQty || newQty <= 0) return alert("Invalid quantity.");
+      const newTotal = newQty * editUnitPrice;
+    
+      const { error } = await supabase
+        .from('customers_order')
+        .update({ quantity: newQty, total_price: newTotal })
+        .eq('id', editOrderId);
+    
+      if (!error) {
+        closeModal('edit-modal');
+        fetchOrders();  // Refresh orders after update
+      }
+    });
+    
+    document.getElementById('confirm-delete-btn').addEventListener('click', async () => {
+      const { error } = await supabase
+        .from('customers_order')
+        .delete()
+        .eq('id', deleteOrderId);
+    
+      if (!error) {
+        closeModal('delete-modal');
+        fetchOrders();  // Refresh orders after delete
+      }
+    });
+    
     document.getElementById('open-receipt-btn').addEventListener('click', () => {
       const receiptDetails = document.getElementById('receipt-details');
       if (ordersData.length === 0) {
         receiptDetails.innerHTML = '<p>No items in your receipt.</p>';
       } else {
-        const orderLines = ordersData.map(order => `
-          <p>Dish: ${order.menu_item.recipes.name} | Quantity: ${order.quantity} | Total: ₱${order.total_price.toFixed(2)}</p>
-        `).join('');
-
-        const grandTotal = ordersData.reduce((sum, order) => sum + order.total_price, 0);
-
-        receiptDetails.innerHTML = `
-          ${orderLines}
-          <hr />
-          <p><strong>Grand Total: ₱${grandTotal.toFixed(2)}</strong></p>
-        `;
+        const items = ordersData.map(o =>
+          `<div style="display: flex; align-items: center; margin-bottom: 10px;">
+            <img src="${o.menu_item.recipes.image_url}" alt="${o.menu_item.recipes.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;">
+            <span style="flex: 1;"><strong>${o.menu_item.recipes.name}</strong> &times; ${o.quantity}</span>
+            <span>₱${o.total_price.toFixed(2)}</span>
+          </div>`
+        ).join('');
+    
+        const total = ordersData.reduce((sum, o) => sum + o.total_price, 0);
+        receiptDetails.innerHTML = `${items}<hr><p><strong>Total: ₱${total.toFixed(2)}</strong></p>`;
       }
       document.getElementById('receipt-modal').style.display = 'block';
     });
-
-    document.getElementById('confirm-btn').addEventListener('click', async function () {
-  const orderType = document.getElementById('order-type').value;
-  document.getElementById('orders-container').innerHTML = '';
-
-  const loggedInUser = localStorage.getItem('loggedInUser');
-  if (!loggedInUser) return;
-
-  const { data: userData, error: userError } = await supabase
-    .from('customers')
-    .select('id')
-    .eq('username', loggedInUser)
-    .single();
-
-  if (userError || !userData) return;
-
-  const customer_id = userData.id;
-
-  await supabase
-    .from('customers_order')
-    .update({ order_type: orderType, status: 'confirmed' }) // You can also update status here
-    .eq('customer_id', customer_id)
-    .eq('status', 'pending');
-
-  document.getElementById('receipt-modal').style.display = 'none';
-  document.getElementById('thank-you-modal').style.display = 'block';
-});
-
-    document.getElementById('close-btn').addEventListener('click', function () {
-      document.getElementById('thank-you-modal').style.display = 'none';
+    
+    document.getElementById('confirm-btn').addEventListener('click', async () => {
+      const orderType = document.getElementById('order-type').value;
+      const loggedInUser = localStorage.getItem('loggedInUser');
+      if (!loggedInUser) return;
+    
+      const { data: userData } = await supabase
+        .from('customers')
+        .select('id')
+        .eq('username', loggedInUser)
+        .single();
+    
+      if (!userData) return;
+    
+      const { data: orders } = await supabase
+        .from('customers_order')
+        .select('id, total_price')
+        .eq('customer_id', userData.id)
+        .eq('status', 'pending');
+    
+      if (!orders || orders.length === 0) return alert("No pending orders to confirm.");
+    
+      for (const order of orders) {
+        const { error } = await supabase
+          .from('place_order')
+          .insert([{
+            cart_id: order.id,
+            total_amount: order.total_price,
+            delivery_type: orderType,
+            order_status: 'pending'
+          }]);
+        if (error) console.error('Insert error:', error.message);
+      }
+    
+      // Update the status of orders to "confirmed"
+      await supabase
+        .from('customers_order')
+        .update({ status: 'confirmed' })
+        .eq('customer_id', userData.id)
+        .eq('status', 'pending');
+    
+      // Clear the orders and show confirmation modal
+      const container = document.getElementById('orders-container');
+      container.innerHTML = '<p>Your orders have been confirmed and are now hidden.</p>';
+      document.getElementById('receipt-modal').style.display = 'none';
+      document.getElementById('thank-you-modal').style.display = 'block';
+  
+      // After confirming, refresh the order list to exclude confirmed orders
+      fetchOrders();
     });
+    
+    document.getElementById('close-btn').addEventListener('click', () => {
+      document.getElementById('thank-you-modal').style.display = 'none';
+      fetchOrders();  // Refresh orders after closing the thank you modal
+    });
+    
+    fetchOrders();  // Initial fetch to display orders
   </script>
-</body>
-</html>
+</body></html>  
