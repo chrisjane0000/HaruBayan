@@ -295,11 +295,6 @@
     </div>
   </div>
 
-  <!-- e add rani sya ubos sa order date sa orders.forEach(order => na part
-   <button class="modal-btn" onclick="openEditModal(${order.id}, ${order.quantity}, ${order.menu_item.price})">Edit</button>
-    <button class="modal-btn" onclick="openDeleteModal(${order.id})">Remove</button>  
-    -->
-
     <div style="position: fixed; top: 40px; left: 20px; z-index: 1000;">
       <button onclick="history.back()" style="
         background-color: #ffb7c4;
@@ -373,8 +368,11 @@
             <p>Total Price: ₱${order.total_price.toFixed(2)}</p>
             <p>Order Date: ${orderDate}</p>
           </div>
+           <button class="modal-btn" onclick="openEditModal(${order.id}, ${order.quantity}, ${order.menu_item.price})">Edit</button>
+    <button class="modal-btn" onclick="openDeleteModal(${order.id})">Remove</button>  
         `;
         container.appendChild(card);
+        
       });
     }
     
