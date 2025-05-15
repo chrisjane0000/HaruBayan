@@ -354,7 +354,7 @@
         <div class="box email-box">
           <h4>EMAIL US</h4>
           <p>For inquiries, reservations, or feedback, email us at</p>
-          <a href="mailto:info@hana-bayun.ph">info@haru-bayan.ph</a>
+          <a href="mailto:info@hana-bayun.ph">harubayan.official@gmail.com</a>
         </div>
 
         <div class="box-follow-box">
@@ -366,11 +366,12 @@
    
 
     <div class="right-section">
-      <form class="contact-form">
+      <form class="contact-form" id="contact-form">
         <h3>CONTACT FORM</h3>
-        <input type="text" placeholder="Name" required>
-        <input type="email" placeholder="Email" required>
-        <textarea placeholder="Message" rows="5"></textarea>
+        <div id="message-box" style="margin-bottom: 10px; font-weight: bold; color: green;"></div>
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="message" placeholder="Message" rows="5" required></textarea>
         <button type="submit">SEND</button>
       </form>
     </div>
@@ -381,6 +382,42 @@
     <p>&copy; 2025 Haru Bayan. Created by MyTech Camp.</p>
   </footer>
 <script>
+  document.getElementById("contact-form").addEventListener("submit", function(e) {
+  e.preventDefault(); // Prevent default form submission
+
+  const name = this.name.value;
+  const email = this.email.value;
+  const message = this.message.value;
+
+  fetch("http://127.0.0.1:8000/contact/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCSRFToken(), // Optional if you're not using CSRF or have CSRF exempted
+    },
+    body: JSON.stringify({ name, email, message }),
+  })
+  .then(response => {
+    if (!response.ok) throw new Error("Failed to send message");
+    return response.json();
+  })
+  .then(data => {
+    document.getElementById("message-box").innerText = "Message sent successfully!";
+    document.getElementById("contact-form").reset();
+  })
+  .catch(err => {
+    document.getElementById("message-box").innerText = "An error occurred. Please try again.";
+  });
+
+  function getCSRFToken() {
+    const cookies = document.cookie.split("; ");
+    for (let c of cookies) {
+      if (c.startsWith("csrftoken=")) return c.split("=")[1];
+    }
+    return "";
+  }
+});
+
   const loggedInUser = localStorage.getItem('loggedInUser');
 
 if (loggedInUser) {
