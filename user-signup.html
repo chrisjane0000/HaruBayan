@@ -6,7 +6,6 @@
   <title>HaruBayan - User Sign Up</title>
   <link rel="icon" type="image/png" href="img/logo-harubayan.png"/>
   <style>
-    /* --- [YOUR STYLE] --- */
     * {
       margin: 0;
       padding: 0;
@@ -117,12 +116,11 @@
     }
 
     #signup-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  }
-  
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -132,90 +130,95 @@
       <img src="img/logo-harubayan.png" alt="Logo" class="logo" />
       <h3 class="brand">Haru-Bayan</h3>
 
-      <!-- Form -->
-      <form id="signup-form"> 
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <input type="password" name="password2" placeholder="Confirm Password" required />
-        <input type="text" name="address" placeholder="Address" required />
-        <input type="tel" name="phone" placeholder="Phone Number" required />
+      <form id="signup-form">
+        <input id="username" type="text" name="username" placeholder="Username" required />
+        <input id="email" type="email" name="email" placeholder="Email" required />
+        <input id="password" type="password" name="password" placeholder="Password" required />
+        <input id="password2" type="password" name="password2" placeholder="Confirm Password" required />
+        <input id="address" type="text" name="address" placeholder="Address" required />
+        <input id="phone" type="tel" name="phone" placeholder="Phone Number" required />
         <button type="submit">SIGN UP</button>
-    </form>
-    
-      <!-- Redirect to Login -->
+      </form>
+
       <div class="login-link">
         <span>Already have an account? <a href="./user-login.html">Login</a></span>
       </div>
 
-      <!-- Notification -->
-      <div id="signup-notification" class="notification">
-        Sign up successful! Welcome <span id="user-name"></span>.
-      </div>
+      <div id="signup-notification" class="notification"></div>
     </div>
   </div>
 
-  <!-- JavaScript -->
   <script>
-  // Add event listener for form submission
-  const form = document.querySelector('#signup-form');
-  const notification = document.querySelector('#signup-notification');
-  const userNameSpan = document.querySelector('#user-name');
-  
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault(); // Prevent page reload
+    const form = document.querySelector('#signup-form');
+    const notification = document.querySelector('#signup-notification');
 
-    // Get values from form fields
-    const username = document.querySelector('input[name="username"]').value;
-    const email = document.querySelector('input[name="email"]').value;
-    const password = document.querySelector('input[name="password"]').value;
-    const password2 = document.querySelector('input[name="password2"]').value;
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
 
-    // Check if the passwords match
-    if (password !== password2) {
-      alert("Passwords do not match!");
-      return;
-    }
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const password2 = document.getElementById('password2').value;
+      const address = document.getElementById('address').value.trim();
+      const phone = document.getElementById('phone').value.trim();
 
-    try {
-      // Send the data to Django backend
-      const response = await fetch('http://127.0.0.1:8000/api/auth/users/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username,
-          email: email,
-          password: password,
-        })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // Show success notification
-        userNameSpan.textContent = username;
-        notification.classList.add('show');
-        
-        // Hide the notification after a few seconds
-        setTimeout(() => {
-          notification.classList.remove('show');
-          window.location.href = 'user-login.html'; // Redirect to login page
-        }, 3000); // 3 seconds for the notification to stay visible
-
-      } else {
-        // Handle errors (e.g., username already exists)
-        alert('Error: ' + JSON.stringify(data));
+      if (password !== password2) {
+        alert("Passwords do not match!");
+        return;
       }
 
-    } catch (error) {
-      console.error('Error:', error);
-      alert('There was an error signing up.');
-    }
-  });
-</script>
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/auth/signup/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password,
+            re_password: password2
+          })
+        });
 
+        const data = await response.json();
 
+        if (response.ok) {
+          // Save username and redirect
+          sessionStorage.setItem('signupUsername', username);
+          // Show success notification
+          notification.textContent = 'Sign up successful! Redirecting to OTP verification...';
+          notification.className = 'notification success show';
+
+          setTimeout(() => {
+            notification.className = 'notification';
+            window.location.href = 'otp-verification.html';
+          }, 2000);
+        } else {
+          // Show server error message
+          const errorMsg = data.error || JSON.stringify(data);
+          alert('Error: ' + errorMsg);
+          // Optionally, show error notification
+          notification.textContent = 'Error: ' + errorMsg;
+          notification.className = 'notification error show';
+
+          // Hide notification after some seconds
+          setTimeout(() => {
+            notification.className = 'notification';
+          }, 3000);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('There was an error signing up.');
+        // Show generic error notification
+        notification.textContent = 'There was an error signing up.';
+        notification.className = 'notification error show';
+
+        setTimeout(() => {
+          notification.className = 'notification';
+        }, 3000);
+      }
+    });
+  </script>
 </body>
-</html>  
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OTP Verification</title>
+  <style>
+    body {
+      background-color: #8b0013;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+
+    .otp-card {
+      background-color: #f3e6f3;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      width: 400px;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      margin: 10px 0;
+      border: 1px solid #570404;
+      border-radius: 10px;
+      background-color: #f1cece;
+    }
+
+    button {
+      background-color: #ff7070;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 200px;
+    }
+
+    button:hover {
+      background-color: #e05555;
+    }
+
+    .notification {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="otp-card">
+    <h2>Verify Your Account</h2>
+    <p>Check your email for the 6-digit OTP.</p>
+    <input type="text" id="otp" placeholder="Enter OTP" maxlength="6" required />
+    <br />
+    <button onclick="verifyOTP()">Verify</button>
+
+    <div class="notification" id="otp-result"></div>
+  </div>
+
+  <script>
+    async function verifyOTP() {
+      const username = sessionStorage.getItem('signupUsername');
+      const otp = document.getElementById('otp').value;
+      const result = document.getElementById('otp-result');
+
+      if (!username || !otp) {
+        result.textContent = 'Username or OTP missing.';
+        result.className = 'notification error';
+        return;
+      }
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/verify-otp/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, otp })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          result.textContent = data.message;
+          result.className = 'notification success';
+          setTimeout(() => {
+            window.location.href = 'user-login.html';
+          }, 2000);
+        } else {
+          result.textContent = data.error;
+          result.className = 'notification error';
+        }
+      } catch (error) {
+        result.textContent = 'Error verifying OTP.';
+        result.className = 'notification error';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -329,37 +329,22 @@
         font-size: 0.9rem;
       }
       .sakura {
-      position: fixed;
-      top: -50px;
-      width: 30px;
-      height: 30px;
-      background-image: url('/img/sakura.png');
-      background-size: cover;
-      animation: fall linear infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
+  position: fixed;
+  top: -50px;
+  width: 30px;
+  height: 30px;
+  background-image: url('img/sakura.png'); /* Ensure this path is correct */
+  background-size: cover;
+  animation: fall linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
 
-    @keyframes fall {
-      0% {
-        transform: translateX(0) rotate(0);
-        top: -50px;
-      }
-      100% {
-        transform: translateX(200px) rotate(360deg);
-        top: 100vh;
-      }
-    }
-
-    .sakura:nth-child(odd) {
-      animation-duration: 8s;
-      animation-delay: 2s;
-    }
-
-    .sakura:nth-child(even) {
-      animation-duration: 6s;
-      animation-delay: 4s;
-    }
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
     </style>
   </head>
   <body>
@@ -393,7 +378,7 @@
 
     <section class="hero" id="hero">
       <h1>"Bringing the heart of Japan to every Filipino plate—one authentic bite at a time."</h1>
-      <button onclick="window.location.href='user-login.html'">Order Now</button>
+      <button id="orderButton">Order Now</button>
     </section>
 
     <section class="services">
@@ -454,6 +439,27 @@
     </button>
 
     <script>
+      function createSakura() {
+  const sakura = document.createElement("div");
+  sakura.classList.add("sakura");
+
+  const size = 25; // Fixed size for all petals
+  sakura.style.width = `${size}px`;
+  sakura.style.height = `${size}px`;
+  sakura.style.left = `${Math.random() * window.innerWidth}px`;
+  sakura.style.animationDuration = `${5 + Math.random() * 5}s`; // Still randomized fall speed
+  sakura.style.animationDelay = `${Math.random() * 2}s`;
+
+  document.body.appendChild(sakura);
+
+  setTimeout(() => {
+    sakura.remove();
+  }, 12000); // Remove safely after longest duration
+}
+
+setInterval(createSakura, 500); // Generate a petal every 200ms
+
+
       const hero = document.getElementById('hero');
       const bgImages = ['img/mainpics/hero/pic1.jpg', 'img/mainpics/hero/pic2.jpg', 'img/mainpics/hero/pic3.jpg', 'img/mainpics/hero/pic4.webp', 'img/mainpics/hero/pic5.jpg'];
       let current = 0;
@@ -470,9 +476,19 @@
       window.onscroll = () => {
         scrollTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
       };
-  
 
-  
+  // order button
+  document.getElementById("orderButton").addEventListener("click", function () {
+  const loggedInUser = localStorage.getItem('loggedInUser');
+
+  if (loggedInUser) {
+    window.location.href = "Menu-categories.html";
+  } else {
+    window.location.href = "user-login.html";
+  }
+});
+
+
   // Logout action
   const loggedInUser = localStorage.getItem('loggedInUser');
 
@@ -529,17 +545,6 @@
       if (event.target == signupModal) signupModal.style.display = "none";
     });
 
-  document.addEventListener("DOMContentLoaded", function () {
-      for (let i = 0; i < 20; i++) {
-        const sakura = document.createElement("div");
-        sakura.className = "sakura";
-        sakura.style.left = Math.random() * 100 + "vw";
-        sakura.style.animationDelay = Math.random() * 5 + "s";
-        document.body.appendChild(sakura);
-      }
-    });
-
-    generateSakura();
     
   </script>
 
