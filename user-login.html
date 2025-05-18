@@ -124,6 +124,7 @@
     .signup-link a:hover {
       color: #ff7070;
     }
+    
   </style>
 </head>
 <body>
@@ -142,6 +143,10 @@
         <div class="signup-link">
           <span>Don't have an account? <a href="./user-signup.html">Sign up</a></span>
         </div>
+        
+        <div class="signup-link">
+          <span><a href="#" id="forgot-password-link">Forgot Password?</a></span>
+        </div>
 
         <div id="login-notification" class="notification success">
           Login successful! Welcome <span id="user-name"></span>.
@@ -153,56 +158,207 @@
     </div>
   </div>
 
-  <script>
-    const form = document.querySelector('#login-form');
-    const notification = document.querySelector('#login-notification');
-    const errorNotification = document.querySelector('#login-error-notification');
-    const userNameSpan = document.querySelector('#user-name');
+  
+  <!-- Forgot Password Modal -->
+  <div id="forgot-password-modal" style="display: none; background-color: rgba(0, 0, 0, 0.6); position: fixed; top: 0; left: 0; width: 100%; height: 100%; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 400px; text-align: center;">
+     <!-- Inside forgot-password-modal -->
+<h3>Reset Your Password</h3>
+<p>Enter your username and email to receive an OTP.</p>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+<input type="text" id="reset-username" placeholder="Username" style="padding: 10px; width: 80%; margin-top: 10px; border-radius: 8px; border: 1px solid #aaa;" required />
 
-      const username = document.querySelector('input[name="username"]').value;
-      const password = document.querySelector('input[name="password"]').value;
+<input type="email" id="reset-email" placeholder="Email" style="padding: 10px; width: 80%; margin-top: 10px; border-radius: 8px; border: 1px solid #aaa;" required />
 
-      if (!username || !password) {
-        alert("Please fill in both fields!");
-        return;
+      <br />
+      <button id="send-reset" style="margin-top: 15px; padding: 10px 20px; border: none; background-color: #ff7070; color: white; border-radius: 10px; font-weight: bold;">Send Reset Email</button>
+      <br />
+      <button id="close-modal" style="margin-top: 10px; background: none; border: none; color: #570404; font-weight: bold;">Cancel</button>
+    </div>
+  </div>
+  
+  <!-- OTP Verification Modal -->
+<div id="otp-verification-modal" style="display: none; background-color: rgba(0, 0, 0, 0.6); position: fixed; top: 0; left: 0; width: 100%; height: 100%; justify-content: center; align-items: center;">
+  <div style="background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 400px; text-align: center;">
+    <h3>Verify OTP</h3>
+    <p>Enter the OTP sent to your email and your new password.</p>
+    <input type="text" id="otp-input" placeholder="Enter OTP" style="padding: 10px; width: 80%; margin-top: 10px; border-radius: 8px; border: 1px solid #aaa;" required />
+    <input type="password" id="new-password" placeholder="New Password" style="padding: 10px; width: 80%; margin-top: 10px; border-radius: 8px; border: 1px solid #aaa;" required />
+    <br />
+    <button id="verify-otp" style="margin-top: 15px; padding: 10px 20px; border: none; background-color: #ff7070; color: white; border-radius: 10px; font-weight: bold;">Submit</button>
+    <br />
+    <button id="close-otp-modal" style="margin-top: 10px; background: none; border: none; color: #570404; font-weight: bold;">Cancel</button>
+  </div>
+</div>
+
+
+<script>
+  const form = document.querySelector('#login-form');
+  const notification = document.querySelector('#login-notification');
+  const errorNotification = document.querySelector('#login-error-notification');
+  const userNameSpan = document.querySelector('#user-name');
+  const forgotPasswordLink = document.getElementById('forgot-password-link');
+  const modal = document.getElementById('forgot-password-modal');
+  const sendReset = document.getElementById('send-reset');
+  const closeModal = document.getElementById('close-modal');
+  const otpModal = document.getElementById('otp-verification-modal');
+  const verifyOtpBtn = document.getElementById('verify-otp');
+  const closeOtpModal = document.getElementById('close-otp-modal');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = document.querySelector('input[name="username"]').value;
+    const password = document.querySelector('input[name="password"]').value;
+
+    if (!username || !password) {
+      alert("Please fill in both fields!");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('loggedInUser', username);
+        userNameSpan.textContent = username;
+        notification.classList.add('show');
+
+        setTimeout(() => {
+          notification.classList.remove('show');
+          window.location.href = 'haruBayan.html';
+        }, 3000);
+      } else {
+        errorNotification.classList.add('show');
+        setTimeout(() => {
+          errorNotification.classList.remove('show');
+        }, 3000);
       }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('There was an error logging in.');
+    }
+  });
 
-      try {
-        const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password })
-        });
+  
 
-        const data = await response.json();
+  let resetEmail = "";  // Store email for OTP verification
 
-        if (response.ok) {
-          localStorage.setItem('loggedInUser', username);
-          userNameSpan.textContent = username;
-          notification.classList.add('show');
+  forgotPasswordLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    modal.style.display = 'flex';
+  });
 
-          setTimeout(() => {
-            notification.classList.remove('show');
-            window.location.href = 'haruBayan.html';
-          }, 3000);
-        } else {
-          errorNotification.classList.add('show');
-          setTimeout(() => {
-            errorNotification.classList.remove('show');
-          }, 3000);
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('There was an error logging in.');
-      }
+  closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  sendReset.addEventListener('click', async () => {
+  const username = document.getElementById('reset-username').value;
+  const email = document.getElementById('reset-email').value;
+
+  if (!username || !email) {
+    alert('Please enter both your username and email.');
+    return;
+  }
+
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/auth/forgot-password/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email })
     });
 
-    
-  </script>
+    const data = await response.json();
+
+    if (response.ok) {
+  alert('OTP has been sent to your email.');
+  modal.style.display = 'none';
+  otpModal.style.display = 'flex';
+  localStorage.setItem('resetEmail', email);  // ✅ Fixed this line
+
+
+    } else {
+      alert(data.detail || 'Failed to send reset email. Make sure username and email match.');
+    }
+  } catch (error) {
+    console.error('Network or server error:', error);
+alert('Error: ' + error.message);
+
+  }
+});
+
+
+verifyOtpBtn.addEventListener('click', async () => {
+  console.log("Button clicked");
+
+  const otp = document.getElementById('otp-input').value.trim();
+  const newPassword = document.getElementById('new-password').value;
+  const resetEmail = localStorage.getItem('resetEmail');
+
+  console.log("OTP:", otp, "New Password:", newPassword);
+  console.log("Reset Email:", resetEmail);
+
+  if (!resetEmail) {
+    alert('Reset email is not set. Please go back and request OTP again.');
+    return;
+  }
+
+  if (!otp || !newPassword) {
+    alert('Please fill in both OTP and new password.');
+    return;
+  }
+
+  const payload = {
+    email: resetEmail,
+    otp: otp,
+    new_password: newPassword
+  };
+  console.log('Payload to send:', payload);
+
+  try {
+    const response = await fetch('http://127.0.0.1:8000/verify-reset-otp/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(payload),
+  credentials: 'include'
+});
+
+    const responseText = await response.text(); // Read response body as text
+    console.log('Response status:', response.status);
+    console.log('Response body:', responseText);
+
+    if (response.ok) {
+      alert('Password reset successful. You can now log in.');
+      otpModal.style.display = 'none';
+    } else {
+      try {
+        const errorData = JSON.parse(responseText);
+        alert('Error: ' + (errorData.detail || errorData.error || 'Something went wrong.'));
+      } catch (e) {
+        alert('Unexpected error response: ' + responseText);
+      }
+    }
+  } catch (error) {
+  console.error('Fetch error:', error);
+  alert('Fetch error: ' + error.message);
+}
+});
+closeOtpModal.addEventListener('click', () => {
+  otpModal.style.display = 'none';
+});
+
+</script>
+
 </body>
 </html>
