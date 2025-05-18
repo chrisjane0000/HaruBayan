@@ -331,7 +331,6 @@ verifyOtpBtn.addEventListener('click', async () => {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify(payload),
-  credentials: 'include'
 });
 
     const responseText = await response.text(); // Read response body as text
